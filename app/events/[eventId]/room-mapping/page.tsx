@@ -1,7 +1,7 @@
 'use client';
 
-import { use } from 'react';
-import { useState } from 'react';
+import { use, useEffect, useState } from 'react';
+import { HOTELS, RoomType } from '../hotels/data';
 
 interface Guest {
   id: string;
@@ -17,9 +17,9 @@ interface Room {
   assigned: Guest[];
 }
 
-export default function RoomMappingPage({ }: { params: Promise<{ eventId: string }> }) {
+export default function RoomMappingPage({ params }: { params: Promise<{ eventId: string }> }) {
+  const { eventId } = use(params);
 
-  
   // State for guests and rooms
   const [unassignedGuests, setUnassignedGuests] = useState<Guest[]>([
     { id: '1', name: 'Rajesh Kumar', occupancy: 2 },
@@ -28,11 +28,53 @@ export default function RoomMappingPage({ }: { params: Promise<{ eventId: string
     { id: '4', name: 'Sneha Reddy', occupancy: 2 },
   ]);
 
-  const [rooms, setRooms] = useState<Room[]>([
-    { id: 'r1', hotel: 'The Grand Palace', type: 'Deluxe Room', capacity: 2, assigned: [] },
-    { id: 'r2', hotel: 'The Grand Palace', type: 'Premium Suite', capacity: 3, assigned: [] },
-    { id: 'r3', hotel: 'Royal Retreat', type: 'Executive Suite', capacity: 2, assigned: [] },
-  ]);
+  const [rooms, setRooms] = useState<Room[]>([]);
+
+  useEffect(() => {
+      const savedMapping = localStorage.getItem(`mapping_${eventId}`);
+      
+      if (savedMapping) {
+          const { hotelId, selectedRooms } = JSON.parse(savedMapping);
+          const hotel = HOTELS.find(h => h.id === hotelId);
+
+          if (hotel && selectedRooms) {
+              const generatedRooms: Room[] = [];
+              
+              // Iterate over purchased room types
+              Object.entries(selectedRooms).forEach(([roomId, count]) => {
+                  const qty = count as number;
+                  if (qty > 0) {
+                      // Find details for this room ID
+                      let roomDetails: RoomType | undefined;
+                      Object.values(hotel.rooms).forEach((category: any) => {
+                          const found = category.find((r: RoomType) => r.id === Number(roomId));
+                          if (found) roomDetails = found;
+                      });
+
+                      if (roomDetails) {
+                          // Generate N instances
+                          for (let i = 0; i < qty; i++) {
+                              generatedRooms.push({
+                                  id: `${roomDetails.id}-${i}`, // Unique ID for this instance
+                                  hotel: hotel.name,
+                                  type: roomDetails.name,
+                                  capacity: roomDetails.capacity,
+                                  assigned: []
+                              });
+                          }
+                      }
+                  }
+              });
+              setRooms(generatedRooms);
+          }
+      } else {
+          // Fallback / Demo Data if nothing saved
+          setRooms([
+            { id: 'r1', hotel: 'The Grand Palace', type: 'Deluxe Room', capacity: 2, assigned: [] },
+            { id: 'r2', hotel: 'The Grand Palace', type: 'Premium Suite', capacity: 3, assigned: [] },
+          ]);
+      }
+  }, [eventId]);
 
   const [draggedGuest, setDraggedGuest] = useState<{ guest: Guest, source: 'unassigned' | string } | null>(null);
   const [warning, setWarning] = useState<string | null>(null);
@@ -111,8 +153,72 @@ export default function RoomMappingPage({ }: { params: Promise<{ eventId: string
 
     // Add back to unassigned
     setUnassignedGuests(prev => [...prev, guest]);
-    setDraggedGuest(null);
     setWarning(null);
+  };
+
+  const handleAutoAssign = () => {
+    const newRooms = [...rooms];
+    let remainingGuests = [...unassignedGuests];
+
+    // Greedy approach: Iterate through rooms and fill them
+    newRooms.forEach((room, roomIndex) => {
+        const currentOccupancy = room.assigned.reduce((sum, g) => sum + g.occupancy, 0);
+        let roomSpace = room.capacity - currentOccupancy;
+
+        if (roomSpace > 0) {
+            // Find guests that fit
+            const guestsToAdd: Guest[] = [];
+            
+            // Filter guests who fit, starting from largest occupancy to optimize (optional, but good heuristic)
+            // For simplicity, we just iterate and fit what we can
+            const nextRemaining: Guest[] = [];
+            
+            remainingGuests.forEach(guest => {
+                if (guest.occupancy <= roomSpace) {
+                    guestsToAdd.push(guest);
+                    roomSpace -= guest.occupancy;
+                } else {
+                    nextRemaining.push(guest);
+                }
+            });
+
+            // Update the room
+            if (guestsToAdd.length > 0) {
+                newRooms[roomIndex] = {
+                    ...room,
+                    assigned: [...room.assigned, ...guestsToAdd]
+                };
+            }
+            
+            remainingGuests = nextRemaining;
+        }
+    });
+
+    setRooms(newRooms);
+    setUnassignedGuests(remainingGuests);
+    
+    if (remainingGuests.length === 0) {
+        setWarning(null); // Clear warnings if success
+    } else {
+        // Optional: Notify if some couldn't be assigned
+        // setWarning(`Could not auto-assign ${remainingGuests.length} guests due to capacity limits.`);
+    }
+  };
+
+  const handleReset = () => {
+      // 1. Collect all guests (both unassigned and assigned)
+      const allGuests: Guest[] = [...unassignedGuests];
+      rooms.forEach(room => {
+          allGuests.push(...room.assigned);
+      });
+      
+      // 2. Clear rooms
+      const resetRooms = rooms.map(room => ({ ...room, assigned: [] }));
+      
+      // 3. Update state
+      setRooms(resetRooms);
+      setUnassignedGuests(allGuests); // You might want to sort these if order matters
+      setWarning(null);
   };
 
   return (
@@ -122,6 +228,29 @@ export default function RoomMappingPage({ }: { params: Promise<{ eventId: string
         <p className="text-sm text-neutral-600 mt-1">
           Drag-and-drop assignment with real-time constraint validation
         </p>
+      </div>
+
+      <div className="bg-white px-8 py-4 border-b border-neutral-200 flex justify-between items-center">
+         <div>
+            <span className="text-sm font-medium text-neutral-500">Quick Actions</span>
+         </div>
+         <div className="flex gap-3">
+             <button
+                onClick={handleReset}
+                className="flex items-center gap-2 px-4 py-2 bg-white border border-neutral-200 text-neutral-700 text-sm font-bold rounded-lg hover:bg-neutral-50 hover:text-red-600 hover:border-red-200 transition-all shadow-sm"
+             >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                Reset
+             </button>
+             <button 
+                onClick={handleAutoAssign}
+                disabled={unassignedGuests.length === 0}
+                className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-bold rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition-all"
+             >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                Auto Assign Guests
+             </button>
+         </div>
       </div>
 
       {warning && (

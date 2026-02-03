@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { HOTELS, RoomType, Hotel } from '../data';
 import Link from 'next/link';
@@ -13,12 +13,26 @@ export default function HotelDetailsPage() {
 
   const hotel: Hotel | undefined = HOTELS.find(h => h.id === hotelId);
 
-  // Mock Event Requirements (In real app, comes from Event Context/API)
-  const REQUIREMENTS = {
-    single: 4,
-    double: 2,
-    triple: 1
-  };
+  // requirements state (default zero, will load from storage)
+  const [requirements, setRequirements] = useState({
+    single: 0,
+    double: 0,
+    triple: 0,
+    quad: 0
+  });
+
+  useEffect(() => {
+    const savedDemand = localStorage.getItem(`demand_${eventId}`);
+    if (savedDemand) {
+        setRequirements(JSON.parse(savedDemand));
+    } else {
+        // Fallback defaults if accessed directly without listing page
+        setRequirements({ single: 5, double: 10, triple: 2, quad: 0 });
+    }
+  }, [eventId]);
+
+  // wrapper for compatible access
+  const REQUIREMENTS = requirements;
 
   // State for selected rooms: { [roomId]: quantity }
   const [selectedRooms, setSelectedRooms] = useState<Record<number, number>>({});
@@ -74,7 +88,7 @@ export default function HotelDetailsPage() {
     localStorage.setItem(`mapping_${eventId}`, JSON.stringify(mappingData));
     
     console.log("Saving Mapping:", mappingData);
-    router.push(`/events/${eventId}/hotels/${hotelId}/rooms`); 
+    router.push(`/events/${eventId}/room-mapping`); 
   };
 
   // --- UI Components ---

@@ -40,11 +40,36 @@ export default function EventDashboardPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold text-neutral-900">Event Dashboard</h1>
-        <p className="text-neutral-600 mt-1">
-          Manage all aspects of your event from one place.
-        </p>
+      <div className="flex justify-between items-start">
+        <div>
+          <h1 className="text-2xl font-bold text-neutral-900">Event Dashboard</h1>
+          <p className="text-neutral-600 mt-1">
+            Manage all aspects of your event from one place.
+          </p>
+        </div>
+        <button
+            onClick={() => {
+                const url = `${window.location.origin}/events/${eventId}/guests`;
+                navigator.clipboard.writeText(url);
+                const btn = document.getElementById('copy-btn');
+                if (btn) {
+                    const originalText = btn.innerText;
+                    btn.innerText = 'Copied!';
+                    btn.classList.add('bg-green-600', 'text-white', 'border-green-600');
+                    btn.classList.remove('bg-white', 'text-neutral-600', 'border-neutral-200');
+                    setTimeout(() => {
+                        btn.innerText = originalText;
+                        btn.classList.remove('bg-green-600', 'text-white', 'border-green-600');
+                        btn.classList.add('bg-white', 'text-neutral-600', 'border-neutral-200');
+                    }, 2000);
+                }
+            }}
+            id="copy-btn"
+            className="flex items-center gap-2 px-4 py-2 bg-white border border-neutral-200 rounded-lg text-sm font-medium text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 transition-all shadow-sm"
+        >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>
+            Copy Guest Invite Link
+        </button>
       </div>
 
       {/* Main Sections Toggles */}
@@ -74,6 +99,24 @@ export default function EventDashboardPage() {
           <h3 className="text-lg font-semibold text-neutral-900">Hotels</h3>
           <p className="text-sm mt-1 text-neutral-500">
             Manage hotel allocations and room mappings.
+          </p>
+        </Link>
+
+        {/* Room Mapping Section Toggle */}
+        <Link
+          href={`/events/${eventId}/room-mapping`}
+          className="p-6 rounded-xl border text-left transition-all duration-200 group bg-white border-neutral-200 hover:border-indigo-300 hover:shadow-sm"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <span className="p-2 rounded-lg bg-indigo-50 text-indigo-600">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+              </svg>
+            </span>
+          </div>
+          <h3 className="text-lg font-semibold text-neutral-900">Room Mapping</h3>
+          <p className="text-sm mt-1 text-neutral-500">
+            Visualize and assign rooms.
           </p>
         </Link>
 
@@ -419,6 +462,7 @@ function PaymentSection() {
   const [markupType, setMarkupType] = useState<"percent" | "fixed">("percent");
   const [markupValue, setMarkupValue] = useState<number>(10);
   const [paymentMethod, setPaymentMethod] = useState<"card" | "bank">("card");
+  const [isGenerating, setIsGenerating] = useState(false);
 
   // CONSTANTS & MOCK DATA
   const BASE_COST = 12500; // Base cost of rooms/services
