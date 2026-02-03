@@ -1,36 +1,188 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Group Inventory Management Platform
 
-## Getting Started
+> Enterprise-grade SaaS platform for MICE events and destination weddings
 
-First, run the development server:
+[![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8)](https://tailwindcss.com/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🎯 Overview
+
+A production-ready platform that digitizes offline coordination workflows for group travel events. Built with operational clarity and financial-grade reliability in mind, this platform feels like "Shopify for Group Travel" or "Notion meets Booking Engine."
+
+**Design Philosophy**: Minimal but powerful, operational clarity over decoration, enterprise maturity (Stripe × Linear × Notion inspiration).
+
+## ✨ Features
+
+### 🎛️ Agent Dashboard
+- **Real-time Metrics**: Active Events, Total Guests, Rooms Blocked, Rooms Sold, Inventory Risk, Revenue Locked
+- **Event Grid**: Dynamic event cards with status badges and inventory consumption indicators
+- **Smart Filtering**: Quick access to event details and management
+
+### 📝 Event Creation Flow
+- **Multi-Step Wizard**: Guided event creation process
+- **Hotel Negotiation Mapping**: Add multiple hotels with room allotments and negotiated rates
+- **Inventory Locking**: Dedicated inventory vault for each event
+
+### 👥 CSV-less Guest Collection
+- **Smart Link Generator**: Shareable event-specific registration URLs
+- **Occupancy Intelligence**: Automatic singles/doubles/triples calculation
+- **WhatsApp Integration**: One-click sharing to guest groups
+
+### 🏨 Hotel Inventory Management
+- **Normalized Room Types**: Algorithmic organization of room categories
+- **Smart Filters**: Meal inclusion, price range, bed type
+- **Availability Tracking**: Color-coded inventory status
+
+### 🗺️ Drag-and-Drop Room Mapping
+- **Split-Screen Interface**: Unassigned guests ↔ Available rooms
+- **Real-Time Validation**: Occupancy constraint checking
+- **Inline Warnings**: Instant feedback on capacity violations
+
+### ⚙️ Booking Execution Engine
+- **Visual Pipeline**: Batch → Validate → Execute → Handle Errors → Reconcile
+- **Status Dashboard**: Live tracking of success/processing/failure states
+- **Error Handling**: Intelligent retry and reconciliation
+
+### 🧠 Post-Booking Intelligence (AI-Powered)
+- **Policy Arbitrage**: Auto-swap refundable/non-refundable rooms
+- **Cost Recovery**: Downgrade rate plans during cancellations
+- **Asset Conversion**: Transform lost revenue into banquet credit
+- **Shadow Folio**: Automated bill auditing and dispute flagging
+
+### 🌐 Guest Microsite
+- **Luxury Aesthetic**: Premium event presentation
+- **Hotel Showcase**: Interactive package selection
+- **Event Itinerary**: Timeline with day-by-day breakdown
+
+### 📊 Analytics
+- **Performance Metrics**: Revenue, booking success rate, group size trends
+- **Chart Visualizations**: Booking trends and revenue analysis
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+ and npm
+- Git
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/tushar330/TBO.git
+   cd TBO
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+## 📁 Project Structure
+
+```
+tbo/
+├── app/
+│   ├── dashboard/              # Main command center
+│   ├── events/[eventId]/       # Event-specific pages
+│   │   ├── guests/            # Guest collection
+│   │   ├── inventory/         # Hotel inventory
+│   │   ├── room-mapping/      # Room assignment
+│   │   └── booking/           # Booking pipeline
+│   ├── post-booking-intelligence/  # AI modules
+│   ├── analytics/             # Performance insights
+│   ├── m/[eventSlug]/         # Guest microsite
+│   ├── globals.css            # Global styles
+│   └── layout.tsx             # Root layout
+├── components/
+│   ├── Navigation.tsx         # Top navigation bar
+│   ├── Sidebar.tsx           # Vertical navigation
+│   ├── EventModal.tsx        # Event creation wizard
+│   ├── EventCard.tsx         # Event display card
+│   ├── MetricCard.tsx        # Dashboard metrics
+│   └── StatusChip.tsx        # Status indicators
+├── lib/
+│   ├── EventContext.tsx      # Global state management
+│   ├── types.ts              # TypeScript definitions
+│   └── mockData.ts           # Demo data
+└── package.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎨 Design System
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Color Palette
+- **Corporate Blue Gradient**: `#1f5f99 → #1a4f84 → #153e6a`
+- **Premium Gradient**: `#1e5c96 → #194c7f → #143a63`
+- **Success**: `#10b981`
+- **Warning**: `#f59e0b`
+- **Error**: `#ef4444`
+- **Processing**: `#3b82f6`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Typography
+- **Font**: Inter (Google Fonts)
+- **Scale**: text-xs to text-3xl
+- **Weights**: normal, medium, semibold, bold
 
-## Learn More
+## 🛠️ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework**: [Next.js 16](https://nextjs.org/) with App Router
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **State Management**: React Context API
+- **Routing**: File-based dynamic routing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📱 Key Routes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `/dashboard` - Main command center
+- `/events/[eventId]/inventory` - Hotel inventory management
+- `/events/[eventId]/guests` - Guest collection system
+- `/events/[eventId]/room-mapping` - Drag-and-drop room assignment
+- `/events/[eventId]/booking` - Booking execution pipeline
+- `/post-booking-intelligence` - AI-powered loss mitigation
+- `/analytics` - Performance metrics and insights
+- `/m/[eventSlug]` - Guest-facing microsite
 
-## Deploy on Vercel
+## 🎯 Use Cases
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **MICE Events**: Corporate conferences, annual sales meetings, team offsites
+- **Destination Weddings**: Multi-day celebrations with guest accommodation
+- **Group Travel**: Family reunions, religious pilgrimages, educational tours
+- **Festival Bookings**: Music festivals, cultural events with lodging needs
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔐 Features in Development
+
+- [ ] User authentication and authorization
+- [ ] Real-time collaboration features
+- [ ] Payment gateway integration
+- [ ] Email notification system
+- [ ] Advanced analytics and reporting
+- [ ] Mobile app (React Native)
+- [ ] API for third-party integrations
+
+## 📄 License
+
+This project is proprietary software. All rights reserved.
+
+## 👨‍💻 Author
+
+**Tushar**
+- GitHub: [@tushar330](https://github.com/tushar330)
+
+## 🙏 Acknowledgments
+
+Built with inspiration from:
+- **Stripe** - Financial-grade reliability
+- **Linear** - Operational clarity
+- **Notion** - Powerful yet minimal design
+
+---
+
+**Built for travel companies ready to digitize their group inventory management workflows.**
