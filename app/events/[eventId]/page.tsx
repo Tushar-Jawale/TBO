@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 interface Hotel {
   id: string;
@@ -12,12 +12,12 @@ interface Hotel {
 }
 
 const HOTELS: Hotel[] = [
-  { id: '1', name: 'Hotel Grand Palace', location: 'Downtown', rooms: 15 },
-  { id: '2', name: 'Sunrise Residency', location: 'Beachside', rooms: 8 },
-  { id: '3', name: 'City View Inn', location: 'City Center', rooms: 12 },
+  { id: "1", name: "Hotel Grand Palace", location: "Downtown", rooms: 15 },
+  { id: "2", name: "Sunrise Residency", location: "Beachside", rooms: 8 },
+  { id: "3", name: "City View Inn", location: "City Center", rooms: 12 },
 ];
 
-type Section = 'hotels' | 'guests' | 'payments';
+type Section = "hotels" | "guests" | "payments" | "postbooking";
 
 export default function EventDashboardPage() {
   const params = useParams();
@@ -28,8 +28,8 @@ export default function EventDashboardPage() {
   const handleSectionClick = (section: Section) => {
     setActiveSection(activeSection === section ? null : section);
     // Reset internal states when switching sections if needed
-    if (section !== 'hotels') {
-        setSelectedHotelId(null);
+    if (section !== "hotels") {
+      setSelectedHotelId(null);
     }
   };
 
@@ -42,11 +42,13 @@ export default function EventDashboardPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-neutral-900">Event Dashboard</h1>
-        <p className="text-neutral-600 mt-1">Manage all aspects of your event from one place.</p>
+        <p className="text-neutral-600 mt-1">
+          Manage all aspects of your event from one place.
+        </p>
       </div>
 
       {/* Main Sections Toggles */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Hotels Section Toggle */}
         <Link
           href={`/events/${eventId}/hotels`}
@@ -54,90 +56,358 @@ export default function EventDashboardPage() {
         >
           <div className="flex items-center justify-between mb-4">
             <span className="p-2 rounded-lg bg-blue-50 text-blue-600">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                />
               </svg>
             </span>
           </div>
           <h3 className="text-lg font-semibold text-neutral-900">Hotels</h3>
           <p className="text-sm mt-1 text-neutral-500">
-            Browse and manage hotel allocations.
+            Manage hotel allocations and room mappings.
           </p>
         </Link>
 
         {/* Guests Section Toggle */}
         <button
-          onClick={() => handleSectionClick('guests')}
+          onClick={() => handleSectionClick("guests")}
           className={`p-6 rounded-xl border text-left transition-all duration-200 group ${
-            activeSection === 'guests'
-              ? 'bg-purple-600 border-purple-600 shadow-md transform scale-[1.02]'
-              : 'bg-white border-neutral-200 hover:border-neutral-300 hover:shadow-sm'
+            activeSection === "guests"
+              ? "bg-purple-600 border-purple-600 shadow-md transform scale-[1.02]"
+              : "bg-white border-neutral-200 hover:border-neutral-300 hover:shadow-sm"
           }`}
         >
           <div className="flex items-center justify-between mb-4">
-             <span className={`p-2 rounded-lg ${activeSection === 'guests' ? 'bg-white/20 text-white' : 'bg-purple-50 text-purple-600'}`}>
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            <span
+              className={`p-2 rounded-lg ${activeSection === "guests" ? "bg-white/20 text-white" : "bg-purple-50 text-purple-600"}`}
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                />
               </svg>
             </span>
-             {activeSection === 'guests' && <div className="w-2 h-2 rounded-full bg-white animate-pulse" />}
+            {activeSection === "guests" && (
+              <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            )}
           </div>
-          <h3 className={`text-lg font-semibold ${activeSection === 'guests' ? 'text-white' : 'text-neutral-900'}`}>Guests</h3>
-          <p className={`text-sm mt-1 ${activeSection === 'guests' ? 'text-white/80' : 'text-neutral-500'}`}>
+          <h3
+            className={`text-lg font-semibold ${activeSection === "guests" ? "text-white" : "text-neutral-900"}`}
+          >
+            Guests
+          </h3>
+          <p
+            className={`text-sm mt-1 ${activeSection === "guests" ? "text-white/80" : "text-neutral-500"}`}
+          >
             View guest lists and RSVPs.
           </p>
         </button>
 
         {/* Payments Section Toggle */}
         <button
-          onClick={() => handleSectionClick('payments')}
+          onClick={() => handleSectionClick("payments")}
           className={`p-6 rounded-xl border text-left transition-all duration-200 group ${
-            activeSection === 'payments'
-              ? 'bg-emerald-600 border-emerald-600 shadow-md transform scale-[1.02]'
-              : 'bg-white border-neutral-200 hover:border-neutral-300 hover:shadow-sm'
+            activeSection === "payments"
+              ? "bg-emerald-600 border-emerald-600 shadow-md transform scale-[1.02]"
+              : "bg-white border-neutral-200 hover:border-neutral-300 hover:shadow-sm"
           }`}
         >
           <div className="flex items-center justify-between mb-4">
-            <span className={`p-2 rounded-lg ${activeSection === 'payments' ? 'bg-white/20 text-white' : 'bg-emerald-50 text-emerald-600'}`}>
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <span
+              className={`p-2 rounded-lg ${activeSection === "payments" ? "bg-white/20 text-white" : "bg-emerald-50 text-emerald-600"}`}
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </span>
-             {activeSection === 'payments' && <div className="w-2 h-2 rounded-full bg-white animate-pulse" />}
+            {activeSection === "payments" && (
+              <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            )}
           </div>
-          <h3 className={`text-lg font-semibold ${activeSection === 'payments' ? 'text-white' : 'text-neutral-900'}`}>Payments</h3>
-          <p className={`text-sm mt-1 ${activeSection === 'payments' ? 'text-white/80' : 'text-neutral-500'}`}>
+          <h3
+            className={`text-lg font-semibold ${activeSection === "payments" ? "text-white" : "text-neutral-900"}`}
+          >
+            Payments
+          </h3>
+          <p
+            className={`text-sm mt-1 ${activeSection === "payments" ? "text-white/80" : "text-neutral-500"}`}
+          >
             Track payments and invoices.
+          </p>
+        </button>
+
+        {/* Post-Booking Section Toggle */}
+        <button
+          onClick={() => handleSectionClick("postbooking")}
+          className={`p-6 rounded-xl border text-left transition-all duration-200 group ${
+            activeSection === "postbooking"
+              ? "bg-orange-600 border-orange-600 shadow-md transform scale-[1.02]"
+              : "bg-white border-neutral-200 hover:border-neutral-300 hover:shadow-sm"
+          }`}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <span
+              className={`p-2 rounded-lg ${activeSection === "postbooking" ? "bg-white/20 text-white" : "bg-orange-50 text-orange-600"}`}
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </span>
+            {activeSection === "postbooking" && (
+              <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            )}
+          </div>
+          <h3
+            className={`text-lg font-semibold ${activeSection === "postbooking" ? "text-white" : "text-neutral-900"}`}
+          >
+            Post-Booking
+          </h3>
+          <p
+            className={`text-sm mt-1 ${activeSection === "postbooking" ? "text-white/80" : "text-neutral-500"}`}
+          >
+            Manage cancellations and changes.
           </p>
         </button>
       </div>
 
       {/* Dynamic Content Section */}
       <div className="min-h-[300px] transition-all duration-500 ease-in-out">
-        {activeSection === 'guests' && (
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-6">
-                <div className="flex justify-between items-center">
-                    <h2 className="text-xl font-bold text-neutral-900">Guest List</h2>
-                    <div className="flex gap-2">
-                         <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">127 Total</span>
-                         <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">98 Checked In</span>
-                    </div>
-                </div>
-
-                <GuestListTable eventId={eventId} />
+        {activeSection === "hotels" && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-neutral-900">
+                Registered Hotels
+              </h2>
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {HOTELS.map((hotel) => {
+                const isSelected = selectedHotelId === hotel.id;
+
+                return (
+                  <div
+                    key={hotel.id}
+                    onClick={(e) => handleHotelSelect(hotel.id, e)}
+                    className={`cursor-pointer rounded-xl border p-6 transition-all duration-200 ${
+                      isSelected
+                        ? "bg-blue-600 border-blue-600 shadow-xl ring-4 ring-blue-100"
+                        : "bg-white border-neutral-200 hover:border-blue-300 hover:shadow-md"
+                    }`}
+                  >
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3
+                          className={`font-semibold text-lg ${isSelected ? "text-white" : "text-neutral-900"}`}
+                        >
+                          {hotel.name}
+                        </h3>
+                        <p
+                          className={`text-sm mt-1 ${isSelected ? "text-white/90" : "text-neutral-500"}`}
+                        >
+                          {hotel.location}
+                        </p>
+                      </div>
+                      {isSelected && (
+                        <div className="bg-white/20 p-1.5 rounded-full text-white">
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+
+                    <div
+                      className={`mt-6 flex items-center gap-2 text-sm ${isSelected ? "text-white/90" : "text-neutral-500"}`}
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                        />
+                      </svg>
+                      <span>{hotel.rooms} Rooms Available</span>
+                    </div>
+
+                    {isSelected && (
+                      <div className="mt-6 pt-6 border-t border-white/20 animate-in fade-in zoom-in-95 duration-200">
+                        <Link
+                          href={`/events/${eventId}/hotels/${hotel.id}/rooms`}
+                          onClick={(e) => e.stopPropagation()}
+                          className="w-full block text-center bg-white text-blue-600 font-semibold py-2.5 rounded-lg hover:bg-neutral-50 transition-colors shadow-sm"
+                        >
+                          Map Rooms
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         )}
 
-        {activeSection === 'payments' && (
-             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <PaymentSection />
+        {activeSection === "guests" && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold text-neutral-900">Guest List</h2>
+              <div className="flex gap-2">
+                <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                  127 Total
+                </span>
+                <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                  98 Checked In
+                </span>
+              </div>
             </div>
+
+            <GuestListTable eventId={eventId} />
+          </div>
+        )}
+
+        {activeSection === "payments" && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <PaymentSection />
+          </div>
+        )}
+
+        {activeSection === "postbooking" && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <Link href={`/events/${eventId}/post-booking`} className="block">
+              <div className="bg-white border border-neutral-200 rounded-xl p-8 hover:shadow-lg hover:border-orange-300 transition-all cursor-pointer">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="p-3 bg-orange-100 rounded-lg">
+                    <svg
+                      className="w-8 h-8 text-orange-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-neutral-900">
+                      Post-Booking Intelligence
+                    </h2>
+                    <p className="text-neutral-600 text-sm">
+                      Algorithmic Loss Mitigation System
+                    </p>
+                  </div>
+                </div>
+                <p className="text-neutral-600 mb-6">
+                  Manage cancellations, modifications, and optimize financial
+                  recovery through intelligent algorithms.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-4">
+                    <div className="text-2xl font-bold text-neutral-900">3</div>
+                    <div className="text-sm text-neutral-600">
+                      Pending Cancellations
+                    </div>
+                  </div>
+                  <div className="bg-white/10 rounded-lg p-4">
+                    <div className="text-2xl font-bold text-success">
+                      ₹30.3K
+                    </div>
+                    <div className="text-sm text-neutral-600">
+                      Recovery Potential
+                    </div>
+                  </div>
+                  <div className="bg-white/10 rounded-lg p-4">
+                    <div className="text-2xl font-bold text-orange-600">
+                      79%
+                    </div>
+                    <div className="text-sm text-neutral-600">
+                      Mitigation Rate
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 text-orange-600 font-medium">
+                  <span>Open Post-Booking Dashboard</span>
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </Link>
+          </div>
         )}
 
         {!activeSection && (
-             <div className="text-center py-24">
-                 <p className="text-neutral-400">Select a category above to view details</p>
-             </div>
+          <div className="text-center py-24">
+            <p className="text-neutral-400">
+              Select a category above to view details
+            </p>
+          </div>
         )}
       </div>
     </div>
@@ -146,25 +416,18 @@ export default function EventDashboardPage() {
 
 // Payment Section Component (Agent View)
 function PaymentSection() {
-  const [markupType, setMarkupType] = useState<'percent' | 'fixed'>('percent');
+  const [markupType, setMarkupType] = useState<"percent" | "fixed">("percent");
   const [markupValue, setMarkupValue] = useState<number>(10);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<"card" | "bank">("card");
 
   // CONSTANTS & MOCK DATA
   const BASE_COST = 12500; // Base cost of rooms/services
-  const TAX_RATE = 0.18;   // 18% Tax
-
-  const ALLOCATIONS = [
-    { type: 'Deluxe Room', count: 5, rate: 1200, total: 6000 },
-    { type: 'Premium Suite', count: 2, rate: 2000, total: 4000 },
-    { type: 'Executive Suite', count: 1, rate: 2500, total: 2500 },
-  ];
+  const TAX_RATE = 0.18; // 18% Tax
 
   // CALCULATIONS
-  const markupAmount = markupType === 'percent' 
-    ? (BASE_COST * (markupValue / 100)) 
-    : markupValue;
-  
+  const markupAmount =
+    markupType === "percent" ? BASE_COST * (markupValue / 100) : markupValue;
+
   const subtotal = BASE_COST + markupAmount;
   const taxAmount = subtotal * TAX_RATE;
   const total = subtotal + taxAmount;
@@ -178,167 +441,261 @@ function PaymentSection() {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       {/* LEFT: Configuration & Details */}
       <div className="lg:col-span-2 space-y-6">
-        
         {/* Markup Configuration */}
         <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-neutral-900">Agent Markup Configuration</h3>
-             <span className="text-xs font-medium px-2 py-1 bg-neutral-100 rounded text-neutral-600">Internal Use</span>
+            <h3 className="text-lg font-semibold text-neutral-900">
+              Markup Configuration
+            </h3>
+            <span className="text-xs font-medium px-2 py-1 bg-neutral-100 rounded text-neutral-600">
+              Admin Only
+            </span>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-             <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-2">Markup Type</label>
-                <div className="flex bg-neutral-100 p-1 rounded-lg">
-                   <button
-                     onClick={() => setMarkupType('percent')}
-                     className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${markupType === 'percent' ? 'bg-white text-neutral-900 shadow-sm' : 'text-neutral-500 hover:text-neutral-700'}`}
-                   >
-                     Percentage (%)
-                   </button>
-                   <button
-                     onClick={() => setMarkupType('fixed')}
-                     className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${markupType === 'fixed' ? 'bg-white text-neutral-900 shadow-sm' : 'text-neutral-500 hover:text-neutral-700'}`}
-                   >
-                     Fixed Amount ($)
-                   </button>
-                </div>
-             </div>
-             
-             <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-2">
-                    Markup Value 
-                    {markupType === 'percent' ? ' (%)' : ' ($)'}
-                </label>
-                <input
-                  type="number"
-                  min="0"
-                  value={markupValue}
-                  onChange={(e) => setMarkupValue(Number(e.target.value))}
-                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
-                />
-             </div>
+            <div>
+              <label className="block text-sm font-medium text-neutral-700 mb-2">
+                Markup Type
+              </label>
+              <div className="flex bg-neutral-100 p-1 rounded-lg">
+                <button
+                  onClick={() => setMarkupType("percent")}
+                  className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${markupType === "percent" ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"}`}
+                >
+                  Percentage (%)
+                </button>
+                <button
+                  onClick={() => setMarkupType("fixed")}
+                  className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${markupType === "fixed" ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"}`}
+                >
+                  Fixed Amount ($)
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-neutral-700 mb-2">
+                Markup Value
+                {markupType === "percent" ? " (%)" : " ($)"}
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={markupValue}
+                onChange={(e) => setMarkupValue(Number(e.target.value))}
+                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+              />
+            </div>
           </div>
         </div>
 
         {/* Room Allocation Summary */}
         <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
-           <h3 className="text-lg font-semibold text-neutral-900 mb-6">Room Allocation Summary</h3>
-           
-           <div className="overflow-hidden rounded-lg border border-neutral-200">
-               <table className="w-full text-sm text-left">
-                   <thead className="bg-neutral-50 text-neutral-700 font-medium">
-                       <tr>
-                           <th className="px-4 py-3">Room Type</th>
-                           <th className="px-4 py-3 text-center">Allocated</th>
-                           <th className="px-4 py-3 text-right">Base Rate</th>
-                           <th className="px-4 py-3 text-right">Total</th>
-                       </tr>
-                   </thead>
-                   <tbody className="divide-y divide-neutral-200">
-                       {ALLOCATIONS.map((room, idx) => (
-                           <tr key={idx} className="bg-white hover:bg-neutral-50">
-                               <td className="px-4 py-3 text-neutral-900 font-medium">{room.type}</td>
-                               <td className="px-4 py-3 text-neutral-600 text-center">{room.count}</td>
-                               <td className="px-4 py-3 text-neutral-600 text-right">${room.rate.toLocaleString()}</td>
-                               <td className="px-4 py-3 text-neutral-900 text-right font-medium">${room.total.toLocaleString()}</td>
-                           </tr>
-                       ))}
-                       <tr className="bg-neutral-50">
-                           <td colSpan={3} className="px-4 py-3 text-right font-semibold text-neutral-900">Total Base Cost</td>
-                           <td className="px-4 py-3 text-right font-bold text-neutral-900">${BASE_COST.toLocaleString()}</td>
-                       </tr>
-                   </tbody>
-               </table>
-           </div>
-        </div>
+          <h3 className="text-lg font-semibold text-neutral-900 mb-6">
+            Payment Method
+          </h3>
 
+          <div className="space-y-4">
+            <label
+              className={`flex items-center gap-4 p-4 border rounded-xl cursor-pointer transition-all ${paymentMethod === "card" ? "border-emerald-500 bg-emerald-50/10" : "border-neutral-200"}`}
+            >
+              <input
+                type="radio"
+                name="payment"
+                checked={paymentMethod === "card"}
+                onChange={() => setPaymentMethod("card")}
+                className="w-5 h-5 text-emerald-600 focus:ring-emerald-500"
+              />
+              <div className="flex-1">
+                <span className="block font-medium text-neutral-900">
+                  Credit / Debit Card
+                </span>
+                <span className="text-sm text-neutral-500">
+                  Instant processing with small fee
+                </span>
+              </div>
+              <div className="flex gap-2">
+                <div className="w-8 h-5 bg-neutral-200 rounded"></div>
+                <div className="w-8 h-5 bg-neutral-200 rounded"></div>
+              </div>
+            </label>
+
+            <label
+              className={`flex items-center gap-4 p-4 border rounded-xl cursor-pointer transition-all ${paymentMethod === "bank" ? "border-emerald-500 bg-emerald-50/10" : "border-neutral-200"}`}
+            >
+              <input
+                type="radio"
+                name="payment"
+                checked={paymentMethod === "bank"}
+                onChange={() => setPaymentMethod("bank")}
+                className="w-5 h-5 text-emerald-600 focus:ring-emerald-500"
+              />
+              <div className="flex-1">
+                <span className="block font-medium text-neutral-900">
+                  Bank Transfer
+                </span>
+                <span className="text-sm text-neutral-500">
+                  2-3 bussiess days
+                </span>
+              </div>
+            </label>
+          </div>
+        </div>
       </div>
 
       {/* RIGHT: Final Invoice Summary */}
       <div className="lg:col-span-1">
-         <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm sticky top-24">
-            <h3 className="text-lg font-semibold text-neutral-900 mb-6">Final Invoice</h3>
+        <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm sticky top-24">
+          <h3 className="text-lg font-semibold text-neutral-900 mb-6">
+            Order Summary
+          </h3>
 
-            <div className="space-y-4 text-sm">
-               <div className="flex justify-between text-neutral-600">
-                  <span>Base Cost</span>
-                  <span>${BASE_COST.toLocaleString()}</span>
-               </div>
-               
-               <div className="flex justify-between text-emerald-600 font-medium bg-emerald-50 -mx-2 px-2 py-1 rounded">
-                  <span>Agent Markup ({markupType === 'percent' ? `${markupValue}%` : 'Fixed'})</span>
-                  <span>+${markupAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-               </div>
-
-               <div className="flex justify-between text-neutral-600">
-                  <span>Subtotal</span>
-                  <span>${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-               </div>
-
-               <div className="flex justify-between text-neutral-600">
-                  <span>Tax (18%)</span>
-                  <span>${taxAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-               </div>
-               
-               <div className="border-t border-neutral-200 my-4 pt-4 flex justify-between items-center">
-                  <span className="font-bold text-lg text-neutral-900">Grand Total</span>
-                  <span className="font-bold text-2xl text-neutral-900">${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-               </div>
+          <div className="space-y-4 text-sm">
+            <div className="flex justify-between text-neutral-600">
+              <span>Base Room Cost</span>
+              <span>${BASE_COST.toLocaleString()}</span>
             </div>
 
-            <button 
-                onClick={handleGenerateLink}
-                disabled={isGenerating}
-                className="w-full mt-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition-colors shadow-sm flex justify-center items-center gap-2"
-            >
-                {isGenerating ? (
-                    <>
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                        Generating...
-                    </>
-                ) : (
-                    <>
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
-                        Generate Payment Link
-                    </>
-                )}
-            </button>
-            <p className="text-xs text-center text-neutral-400 mt-4 leading-relaxed">
-                Generates a secure payment link to share with the client. <br/>
-                Includes automated invoice generation.
-            </p>
-         </div>
+            <div className="flex justify-between text-emerald-600 font-medium bg-emerald-50 -mx-2 px-2 py-1 rounded">
+              <span>
+                Markup ({markupType === "percent" ? `${markupValue}%` : "Fixed"}
+                )
+              </span>
+              <span>
+                +$
+                {markupAmount.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            </div>
+
+            <div className="flex justify-between text-neutral-600">
+              <span>Subtotal</span>
+              <span>
+                $
+                {subtotal.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            </div>
+
+            <div className="flex justify-between text-neutral-600">
+              <span>Tax (18%)</span>
+              <span>
+                $
+                {taxAmount.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            </div>
+
+            <div className="border-t border-neutral-200 my-4 pt-4 flex justify-between items-center">
+              <span className="font-bold text-lg text-neutral-900">Total</span>
+              <span className="font-bold text-2xl text-neutral-900">
+                $
+                {total.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            </div>
+          </div>
+
+          <button className="w-full mt-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition-colors shadow-sm">
+            Pay Now
+          </button>
+          <p className="text-xs text-center text-neutral-400 mt-4">
+            Secure SSL 256-bit encryption
+          </p>
+        </div>
       </div>
     </div>
   );
 }
 
 // Guest List Component (Placed inline for now for modularity within this file, can be extracted later)
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 interface GuestData {
   id: string;
   name: string;
   age: number;
-  gender: 'Male' | 'Female' | 'Other';
+  gender: "Male" | "Female" | "Other";
   checkIn: string;
   checkOut: string;
   specialRequest?: string;
-  status: 'Checked In' | 'Pending' | 'Checked Out';
-  tag: 'VIP' | 'Regular' | 'Staff';
-  roomAllocated: boolean; // New Field
-  roomNumber?: string;    // Optional room number
+  status: "Checked In" | "Pending" | "Checked Out";
+  tag: "VIP" | "Regular" | "Staff";
 }
 
 const MOCK_GUESTS: GuestData[] = [
-  { id: 'g1', name: 'Rajesh Kumar', age: 34, gender: 'Male', checkIn: '2024-10-15', checkOut: '2024-10-18', specialRequest: 'Sea View', status: 'Checked In', tag: 'VIP', roomAllocated: true, roomNumber: '305' },
-  { id: 'g2', name: 'Priya Sharma', age: 28, gender: 'Female', checkIn: '2024-10-15', checkOut: '2024-10-17', status: 'Checked In', tag: 'Regular', roomAllocated: true, roomNumber: '201' },
-  { id: 'g3', name: 'Amit Patel', age: 45, gender: 'Male', checkIn: '2024-10-16', checkOut: '2024-10-19', specialRequest: 'Late Check-out', status: 'Pending', tag: 'VIP', roomAllocated: false },
-  { id: 'g4', name: 'Sneha Reddy', age: 31, gender: 'Female', checkIn: '2024-10-15', checkOut: '2024-10-18', status: 'Checked In', tag: 'Regular', roomAllocated: true, roomNumber: '102' },
-  { id: 'g5', name: 'John Doe', age: 29, gender: 'Male', checkIn: '2024-10-15', checkOut: '2024-10-18', status: 'Checked Out', tag: 'Staff', roomAllocated: true, roomNumber: 'Staff-A' },
-  { id: 'g6', name: 'Jane Smith', age: 25, gender: 'Female', checkIn: '2024-10-16', checkOut: '2024-10-20', specialRequest: 'Vegan Meal', status: 'Pending', tag: 'Regular', roomAllocated: false },
-    // Add more mock data if needed for pagination test
+  {
+    id: "g1",
+    name: "Rajesh Kumar",
+    age: 34,
+    gender: "Male",
+    checkIn: "2024-10-15",
+    checkOut: "2024-10-18",
+    specialRequest: "Sea View",
+    status: "Checked In",
+    tag: "VIP",
+  },
+  {
+    id: "g2",
+    name: "Priya Sharma",
+    age: 28,
+    gender: "Female",
+    checkIn: "2024-10-15",
+    checkOut: "2024-10-17",
+    status: "Checked In",
+    tag: "Regular",
+  },
+  {
+    id: "g3",
+    name: "Amit Patel",
+    age: 45,
+    gender: "Male",
+    checkIn: "2024-10-16",
+    checkOut: "2024-10-19",
+    specialRequest: "Late Check-out",
+    status: "Pending",
+    tag: "VIP",
+  },
+  {
+    id: "g4",
+    name: "Sneha Reddy",
+    age: 31,
+    gender: "Female",
+    checkIn: "2024-10-15",
+    checkOut: "2024-10-18",
+    status: "Checked In",
+    tag: "Regular",
+  },
+  {
+    id: "g5",
+    name: "John Doe",
+    age: 29,
+    gender: "Male",
+    checkIn: "2024-10-15",
+    checkOut: "2024-10-18",
+    status: "Checked Out",
+    tag: "Staff",
+  },
+  {
+    id: "g6",
+    name: "Jane Smith",
+    age: 25,
+    gender: "Female",
+    checkIn: "2024-10-16",
+    checkOut: "2024-10-20",
+    specialRequest: "Vegan Meal",
+    status: "Pending",
+    tag: "Regular",
+  },
+  // Add more mock data if needed for pagination test
 ];
 
 function GuestListTable({ eventId }: { eventId: string }) {
@@ -383,77 +740,97 @@ function GuestListTable({ eventId }: { eventId: string }) {
           <thead className="bg-neutral-50 border-b border-neutral-200">
             <tr>
               <th className="px-6 py-4 font-semibold text-neutral-700">Name</th>
-              <th className="px-6 py-4 font-semibold text-neutral-700">Age/Gender</th>
-              <th className="px-6 py-4 font-semibold text-neutral-700">Check-In / Out</th>
-              <th className="px-6 py-4 font-semibold text-neutral-700">Room Allocated</th>
-              <th className="px-6 py-4 font-semibold text-neutral-700">Status</th>
+              <th className="px-6 py-4 font-semibold text-neutral-700">
+                Age/Gender
+              </th>
+              <th className="px-6 py-4 font-semibold text-neutral-700">
+                Check-In / Out
+              </th>
+              <th className="px-6 py-4 font-semibold text-neutral-700">
+                Status
+              </th>
               <th className="px-6 py-4 font-semibold text-neutral-700">Tag</th>
-              <th className="px-6 py-4 font-semibold text-neutral-700">Special Request</th>
+              <th className="px-6 py-4 font-semibold text-neutral-700">
+                Special Request
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-neutral-100">
             {guests.map((guest) => {
-                const isSelected = selectedGuestId === guest.id;
-                return (
-                    <tr 
-                        key={guest.id} 
-                        onClick={() => setSelectedGuestId(guest.id)}
-                        className={`transition-colors cursor-pointer ${isSelected ? 'bg-purple-50' : 'hover:bg-neutral-50'}`}
+              const isSelected = selectedGuestId === guest.id;
+              return (
+                <tr
+                  key={guest.id}
+                  onClick={() => setSelectedGuestId(guest.id)}
+                  className={`transition-colors cursor-pointer ${isSelected ? "bg-purple-50" : "hover:bg-neutral-50"}`}
+                >
+                  <td className="px-6 py-4 font-medium text-neutral-900">
+                    {guest.name}
+                  </td>
+                  <td className="px-6 py-4 text-neutral-600">
+                    {guest.age} / {guest.gender}
+                  </td>
+                  <td className="px-6 py-4 text-neutral-600">
+                    <div className="flex flex-col">
+                      <span>In: {guest.checkIn}</span>
+                      <span className="text-xs text-neutral-400">
+                        Out: {guest.checkOut}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`px-2 py-1 text-xs font-medium rounded-full ${
+                        guest.status === "Checked In"
+                          ? "bg-green-100 text-green-700"
+                          : guest.status === "Pending"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-neutral-100 text-neutral-600"
+                      }`}
                     >
-                        <td className="px-6 py-4 font-medium text-neutral-900">{guest.name}</td>
-                        <td className="px-6 py-4 text-neutral-600">{guest.age} / {guest.gender}</td>
-                        <td className="px-6 py-4 text-neutral-600">
-                            <div className="flex flex-col">
-                                <span>In: {guest.checkIn}</span>
-                                <span className="text-xs text-neutral-400">Out: {guest.checkOut}</span>
-                            </div>
-                        </td>
-                         <td className="px-6 py-4">
-                            {guest.roomAllocated ? (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 border border-emerald-200">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                    Allocated {guest.roomNumber ? `(${guest.roomNumber})` : ''}
-                                </span>
-                            ) : (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-50 text-red-600 border border-red-200">
-                                     <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                                    Not Allocated
-                                </span>
-                            )}
-                        </td>
-                        <td className="px-6 py-4">
-                            <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                                guest.status === 'Checked In' ? 'bg-green-100 text-green-700' :
-                                guest.status === 'Pending' ? 'bg-yellow-100 text-yellow-700' :
-                                'bg-neutral-100 text-neutral-600'
-                            }`}>
-                                {guest.status}
-                            </span>
-                        </td>
-                         <td className="px-6 py-4">
-                            <span className={`px-2 py-1 text-xs font-medium rounded-full border ${
-                                guest.tag === 'VIP' ? 'bg-purple-50 text-purple-700 border-purple-200' :
-                                guest.tag === 'Staff' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                                'bg-white text-neutral-600 border-neutral-200'
-                            }`}>
-                                {guest.tag}
-                            </span>
-                        </td>
-                        <td className="px-6 py-4 text-neutral-500 italic">
-                            {guest.specialRequest || '-'}
-                        </td>
-                    </tr>
-                );
+                      {guest.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`px-2 py-1 text-xs font-medium rounded-full border ${
+                        guest.tag === "VIP"
+                          ? "bg-purple-50 text-purple-700 border-purple-200"
+                          : guest.tag === "Staff"
+                            ? "bg-blue-50 text-blue-700 border-blue-200"
+                            : "bg-white text-neutral-600 border-neutral-200"
+                      }`}
+                    >
+                      {guest.tag}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-neutral-500 italic">
+                    {guest.specialRequest || "-"}
+                  </td>
+                </tr>
+              );
             })}
           </tbody>
         </table>
       </div>
       <div className="bg-neutral-50 border-t border-neutral-200 px-6 py-4 flex items-center justify-between">
-            <span className="text-sm text-neutral-500">Showing {guests.length} guests</span>
-            <div className="flex gap-2">
-                <button disabled className="px-3 py-1 border border-neutral-200 rounded text-sm text-neutral-400 cursor-not-allowed">Previous</button>
-                <button disabled className="px-3 py-1 border border-neutral-200 rounded text-sm text-neutral-400 cursor-not-allowed">Next</button>
-            </div>
+        <span className="text-sm text-neutral-500">
+          Showing {guests.length} guests
+        </span>
+        <div className="flex gap-2">
+          <button
+            disabled
+            className="px-3 py-1 border border-neutral-200 rounded text-sm text-neutral-400 cursor-not-allowed"
+          >
+            Previous
+          </button>
+          <button
+            disabled
+            className="px-3 py-1 border border-neutral-200 rounded text-sm text-neutral-400 cursor-not-allowed"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

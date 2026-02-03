@@ -1,5 +1,24 @@
-import Navigation from '@/components/Navigation';
-import Sidebar from '@/components/Sidebar';
+"use client";
+
+import Navigation from "@/components/Navigation";
+import Sidebar from "@/components/Sidebar";
+import { SidebarProvider, useSidebar } from "@/lib/SidebarContext";
+
+function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
+  const { isCollapsed } = useSidebar();
+
+  return (
+    <>
+      <Navigation />
+      <Sidebar />
+      <main
+        className={`mt-16 transition-all duration-300 ${isCollapsed ? "ml-20" : "ml-64"}`}
+      >
+        {children}
+      </main>
+    </>
+  );
+}
 
 export default function DashboardLayout({
   children,
@@ -7,12 +26,8 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <Navigation />
-      <Sidebar />
-      <main className="ml-64 mt-16">
-        {children}
-      </main>
-    </>
+    <SidebarProvider>
+      <DashboardLayoutContent>{children}</DashboardLayoutContent>
+    </SidebarProvider>
   );
 }

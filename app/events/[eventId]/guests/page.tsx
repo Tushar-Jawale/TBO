@@ -46,6 +46,26 @@ export default function GuestsPage({
 
   const bookingStatus = "pending"; // Can be 'pending' or 'confirmed'
 
+  // Mock cancellation requests
+  const cancellationRequests = [
+    {
+      id: "1",
+      guestName: "Rajesh Kumar",
+      roomType: "Deluxe Suite",
+      reason: "Family emergency",
+      status: "pending" as const,
+      requestDate: "2026-02-01",
+    },
+    {
+      id: "2",
+      guestName: "Amit Patel",
+      roomType: "Executive Suite",
+      reason: "Health issues",
+      status: "pending" as const,
+      requestDate: "2026-02-03",
+    },
+  ];
+
   // Handle family member count change
   const handleFamilyCountChange = (count: string) => {
     const num = parseInt(count) || 1;
@@ -333,6 +353,56 @@ export default function GuestsPage({
               </div>
             </form>
           </section>
+
+          {/* Cancellation Requests */}
+          {cancellationRequests.length > 0 && (
+            <section className="card p-6">
+              <h2 className="text-2xl font-bold text-neutral-900 mb-6">
+                Cancellation Requests
+              </h2>
+
+              <div className="space-y-3">
+                {cancellationRequests.map((request) => (
+                  <details
+                    key={request.id}
+                    className="bg-neutral-50 rounded-lg border border-neutral-200 overflow-hidden"
+                  >
+                    <summary className="p-4 cursor-pointer hover:bg-neutral-100 transition-colors flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg">👤</span>
+                        <div>
+                          <div className="font-semibold text-neutral-900">
+                            {request.guestName}
+                          </div>
+                          <div className="text-sm text-neutral-600">
+                            {request.roomType}
+                          </div>
+                        </div>
+                      </div>
+                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-warning/10 text-warning">
+                        {request.status.charAt(0).toUpperCase() +
+                          request.status.slice(1)}
+                      </span>
+                    </summary>
+                    <div className="p-4 border-t border-neutral-200 bg-white">
+                      <div className="mb-3">
+                        <div className="text-sm font-medium text-neutral-700 mb-1">
+                          Cancellation Reason:
+                        </div>
+                        <div className="text-sm text-neutral-900 bg-neutral-50 p-3 rounded-lg">
+                          {request.reason}
+                        </div>
+                      </div>
+                      <div className="text-xs text-neutral-500">
+                        Requested on{" "}
+                        {new Date(request.requestDate).toLocaleDateString()}
+                      </div>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Booking Details */}
           <section className="card p-6">
