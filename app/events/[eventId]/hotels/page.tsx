@@ -203,6 +203,127 @@ const RoomClusterSelector = ({ clusters, setClusters }: { clusters: RoomCluster[
   );
 };
 
+// --- Wishlist Drawer Component ---
+
+const WishlistDrawer = ({ 
+  isOpen, 
+  onClose, 
+  wishlistIds, 
+  onRemove, 
+  onSendToHeadGuest 
+}: { 
+  isOpen: boolean; 
+  onClose: () => void; 
+  wishlistIds: string[]; 
+  onRemove: (id: string) => void;
+  onSendToHeadGuest: () => void;
+}) => {
+  const [activeTab, setActiveTab] = useState<'shortlist' | 'approved'>('shortlist');
+  
+  // Mock Approved Hotels (Subset of HOTELS for demo)
+  const approvedHotels = HOTELS.slice(0, 2); 
+  const shortlistedHotels = HOTELS.filter(h => wishlistIds.includes(h.id));
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex justify-end">
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={onClose} />
+      
+      {/* Drawer */}
+      <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+        <div className="p-6 border-b border-neutral-100 flex justify-between items-center bg-white">
+          <h2 className="text-xl font-bold text-neutral-900">Hotel Wishlist</h2>
+          <button onClick={onClose} className="p-2 hover:bg-neutral-100 rounded-full transition-colors">
+            <svg className="w-6 h-6 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex border-b border-neutral-200">
+          <button 
+            onClick={() => setActiveTab('shortlist')}
+            className={`flex-1 py-4 text-sm font-semibold transition-colors ${activeTab === 'shortlist' ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/30' : 'text-neutral-500 hover:text-neutral-700'}`}
+          >
+            My Shortlist ({shortlistedHotels.length})
+          </button>
+          <button 
+            onClick={() => setActiveTab('approved')}
+            className={`flex-1 py-4 text-sm font-semibold transition-colors ${activeTab === 'approved' ? 'text-emerald-600 border-b-2 border-emerald-600 bg-emerald-50/30' : 'text-neutral-500 hover:text-neutral-700'}`}
+          >
+            Approved ({approvedHotels.length})
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto p-6 bg-neutral-50">
+          {activeTab === 'shortlist' ? (
+            <div className="space-y-4">
+              {shortlistedHotels.length === 0 ? (
+                <div className="text-center py-10 opacity-50">
+                  <p>Your shortlist is empty.</p>
+                </div>
+              ) : (
+                shortlistedHotels.map(hotel => (
+                  <div key={hotel.id} className="bg-white p-4 rounded-xl shadow-sm border border-neutral-200 flex gap-4">
+                    <img src={hotel.image} alt={hotel.name} className="w-20 h-20 rounded-lg object-cover bg-neutral-200" />
+                    <div className="flex-1">
+                      <h4 className="font-bold text-neutral-900 line-clamp-1">{hotel.name}</h4>
+                      <p className="text-xs text-neutral-500 mb-2">{hotel.location}</p>
+                      <button 
+                        onClick={() => onRemove(hotel.id)}
+                        className="text-xs text-red-500 font-medium hover:underline"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          ) : (
+            <div className="space-y-4">
+               {approvedHotels.map(hotel => (
+                  <div key={hotel.id} className="bg-white p-4 rounded-xl shadow-sm border border-emerald-200 ring-1 ring-emerald-100 flex gap-4">
+                    <div className="relative">
+                        <img src={hotel.image} alt={hotel.name} className="w-20 h-20 rounded-lg object-cover bg-neutral-200" />
+                        <div className="absolute -top-2 -right-2 bg-emerald-500 text-white p-1 rounded-full shadow-sm">
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                        </div>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-bold text-neutral-900 line-clamp-1">{hotel.name}</h4>
+                      <p className="text-xs text-neutral-500 mb-1">{hotel.location}</p>
+                      <span className="inline-block px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase tracking-wider rounded">Host Approved</span>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          )}
+        </div>
+
+        {/* Footer Actions */}
+        {activeTab === 'shortlist' && (
+          <div className="p-6 border-t border-neutral-200 bg-white">
+            <button 
+              onClick={onSendToHeadGuest}
+              disabled={shortlistedHotels.length === 0}
+              className="w-full py-3 bg-neutral-900 text-white font-bold rounded-lg shadow-lg hover:bg-black transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              <span>Send to Head Guest</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+            </button>
+            <p className="text-xs text-center text-neutral-400 mt-3">
+              Head Guest will review and approve hotels for the event.
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 // --- Page Component ---
 
 export default function HotelListingPage() {
@@ -225,6 +346,34 @@ export default function HotelListingPage() {
     { id: 'triple', label: 'Triple', occupants: 3, count: 2 },
     { id: 'quad', label: 'Quad', occupants: 4, count: 0 },
   ]);
+
+  // Wishlist State
+  const [wishlist, setWishlist] = useState<string[]>(() => {
+    // Initialize from localStorage if available (client-side only check ideally, but useState initializer runs on client)
+    if (typeof window !== 'undefined') {
+        const saved = localStorage.getItem(`wishlist_${eventId}`);
+        return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  });
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+
+  // Persist Wishlist
+  const toggleWishlist = (hotelId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setWishlist(prev => {
+        const next = prev.includes(hotelId) 
+            ? prev.filter(id => id !== hotelId) 
+            : [...prev, hotelId];
+        localStorage.setItem(`wishlist_${eventId}`, JSON.stringify(next));
+        return next;
+    });
+  };
+
+  const handleSendToHeadGuest = () => {
+    alert("Shortlist sent to Head Guest successfully!");
+    setIsWishlistOpen(false);
+  };
 
   // Filter & Sort Logic
   const filteredHotels = useMemo(() => {
@@ -273,9 +422,38 @@ export default function HotelListingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 pb-24">
+    <div className="min-h-screen bg-neutral-50 pb-24 relative">
+        <WishlistDrawer 
+            isOpen={isWishlistOpen} 
+            onClose={() => setIsWishlistOpen(false)}
+            wishlistIds={wishlist}
+            onRemove={(id) => toggleWishlist(id, { stopPropagation: () => {} } as any)}
+            onSendToHeadGuest={handleSendToHeadGuest}
+        />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
+        {/* Header with Wishlist Toggle */}
+        <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold text-neutral-900">Find Hotels</h1>
+            <button 
+                onClick={() => setIsWishlistOpen(true)}
+                className="relative p-3 bg-white border border-neutral-200 rounded-xl shadow-sm hover:shadow-md transition-all group"
+            >
+                <div className="flex items-center gap-2">
+                    <svg className={`w-6 h-6 ${wishlist.length > 0 ? 'text-red-500 fill-current' : 'text-neutral-400 group-hover:text-red-400'}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                    </svg>
+                    <span className="font-semibold text-neutral-700">Wishlist</span>
+                </div>
+                {wishlist.length > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-sm">
+                        {wishlist.length}
+                    </span>
+                )}
+            </button>
+        </div>
+
         {/* Room Cluster Selector */}
         <RoomClusterSelector clusters={roomClusters} setClusters={setRoomClusters} />
 
@@ -313,12 +491,30 @@ export default function HotelListingPage() {
             {/* List */}
             <div className="space-y-4">
               {filteredHotels.map(hotel => {
+                  const isWishlisted = wishlist.includes(hotel.id);
                   return (
                     <div 
                         key={hotel.id} 
                         onClick={() => handleSelectHotel(hotel.id)}
-                        className="bg-white rounded-xl shadow-sm border border-neutral-200 hover:shadow-md hover:border-blue-300 overflow-hidden flex flex-col md:flex-row transition-all duration-200 cursor-pointer"
+                        className="bg-white rounded-xl shadow-sm border border-neutral-200 hover:shadow-md hover:border-blue-300 overflow-hidden flex flex-col md:flex-row transition-all duration-200 cursor-pointer group relative"
                     >
+                        {/* Wishlist Button on Card */}
+                        <button 
+                            onClick={(e) => toggleWishlist(hotel.id, e)}
+                            className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/10 backdrop-blur-md hover:bg-white shadow-sm transition-all group-wishlist"
+                        >
+                             <svg 
+                                className={`w-6 h-6 transition-colors ${isWishlisted ? 'text-red-500 fill-current' : 'text-white md:text-white group-hover:text-red-500'}`} 
+                                xmlns="http://www.w3.org/2000/svg" 
+                                viewBox="0 0 24 24" 
+                                strokeWidth="2" 
+                                stroke="currentColor" 
+                                fill="none"
+                             >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                            </svg>
+                        </button>
+
                         {/* Image */}
                         <div className="w-full md:w-64 h-48 md:h-auto relative bg-neutral-200">
                              <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover" />
