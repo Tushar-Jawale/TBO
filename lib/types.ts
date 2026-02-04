@@ -53,6 +53,8 @@ export interface SubGuest {
     name: string;
     email?: string;
     phone?: string;
+    age?: number;
+    guestCount?: number; // Defaults to 1 if undefined
     headGuestId: string;
     roomGroupId?: string; // null if unassigned
 }

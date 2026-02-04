@@ -68,13 +68,13 @@ export const mockHeadGuests: HeadGuest[] = [
 ];
 
 export const mockSubGuests: SubGuest[] = [
-    { id: 'sg-1', name: 'Amit Sharma', email: 'amit@example.com', headGuestId: 'hg-123', roomGroupId: 'rg-1' },
-    { id: 'sg-2', name: 'Neha Sharma', email: 'neha@example.com', headGuestId: 'hg-123', roomGroupId: 'rg-1' },
-    { id: 'sg-3', name: 'Vikram Sharma', email: 'vikram@example.com', headGuestId: 'hg-123', roomGroupId: 'rg-2' },
-    { id: 'sg-4', name: 'Sonia Sharma', headGuestId: 'hg-123', roomGroupId: 'rg-2' },
-    { id: 'sg-5', name: 'Rahul Sharma', headGuestId: 'hg-123' }, // Unassigned
-    { id: 'sg-6', name: 'Kavita Sharma', headGuestId: 'hg-123' }, // Unassigned
-    { id: 'sg-7', name: 'Arjun Sharma', headGuestId: 'hg-123' }, // Unassigned
+    { id: 'sg-1', name: 'Amit Sharma', email: 'amit@example.com', headGuestId: 'hg-123', roomGroupId: 'rg-1', guestCount: 1, age: 34 },
+    { id: 'sg-2', name: 'Neha Sharma', email: 'neha@example.com', headGuestId: 'hg-123', roomGroupId: 'rg-1', guestCount: 1, age: 32 },
+    { id: 'sg-3', name: 'Vikram Sharma', email: 'vikram@example.com', headGuestId: 'hg-123', roomGroupId: 'rg-2', guestCount: 1, age: 28 },
+    { id: 'sg-4', name: 'Sonia Sharma', headGuestId: 'hg-123', roomGroupId: 'rg-2', guestCount: 1, age: 26 },
+    { id: 'sg-5', name: 'Rahul Sharma (Family)', headGuestId: 'hg-123', guestCount: 3, age: 40 }, // Unassigned family of 3
+    { id: 'sg-6', name: 'Kavita Sharma', headGuestId: 'hg-123', guestCount: 1, age: 60 }, // Unassigned
+    { id: 'sg-7', name: 'Arjun Sharma', headGuestId: 'hg-123', guestCount: 1, age: 62 }, // Unassigned
 ];
 
 export const mockRoomAllocations: RoomAllocation[] = [

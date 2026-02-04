@@ -10,7 +10,7 @@ interface GuestLinkGeneratorProps {
 export default function GuestLinkGenerator({ eventId, guestId }: GuestLinkGeneratorProps) {
     const [copied, setCopied] = useState(false);
 
-    const shareLink = `${typeof window !== 'undefined' ? window.location.origin : ''}/events/${eventId}/portal/${guestId}/guest-form`;
+    const shareLink = `${typeof window !== 'undefined' ? window.location.origin : ''}/events/${eventId}/guests`;
 
     const handleCopyLink = async () => {
         try {
