@@ -17,7 +17,7 @@ const HOTELS: Hotel[] = [
   { id: "3", name: "City View Inn", location: "City Center", rooms: 12 },
 ];
 
-type Section = "hotels" | "guests" | "payments" | "postbooking";
+type Section = "hotels" | "guests" | "settlements" | "postbooking";
 
 export default function EventDashboardPage() {
   const params = useParams();
@@ -297,9 +297,7 @@ export default function EventDashboardPage() {
 
                  {/* Guests Section Toggle */}
                 <button
-                onClick={() => handleSectionClick("guests")}
-                onClick={() => handleSectionClick("guests")}
-                className={`p-6 rounded-lg transition-all cursor-pointer group text-left flex items-start gap-4 w-full ${
+                onClick={() => handleSectionClick("guests")}                className={`p-6 rounded-lg transition-all cursor-pointer group text-left flex items-start gap-4 w-full ${
                     activeSection === "guests"
                     ? "bg-purple-600 border border-purple-600 shadow-md transform scale-[1.02]"
                     : "card hover:shadow-md"
@@ -358,19 +356,18 @@ export default function EventDashboardPage() {
                 </div>
                 </div>
 
-                {/* Payments Section Toggle */}
+                {/* Settlements Section Toggle */}
                 <button
-                onClick={() => handleSectionClick("payments")}
-                onClick={() => handleSectionClick("payments")}
+                onClick={() => handleSectionClick("settlements")}
                 className={`p-6 rounded-lg transition-all cursor-pointer group text-left flex items-start gap-4 w-full ${
-                    activeSection === "payments"
+                    activeSection === "settlements"
                     ? "bg-emerald-600 border border-emerald-600 shadow-md transform scale-[1.02]"
                     : "card hover:shadow-md"
                 }`}
                 >
                  <div className="shrink-0 relative">
                     <span
-                    className={`p-2 rounded-lg block ${activeSection === "payments" ? "bg-white/20 text-white" : "bg-emerald-50 text-emerald-600"}`}
+                    className={`p-2 rounded-lg block ${activeSection === "settlements" ? "bg-white/20 text-white" : "bg-emerald-50 text-emerald-600"}`}
                     >
                     <svg
                         className="w-6 h-6"
@@ -386,29 +383,27 @@ export default function EventDashboardPage() {
                         />
                     </svg>
                     </span>
-                    {activeSection === "payments" && (
+                    {activeSection === "settlements" && (
                      <div className="w-2 h-2 rounded-full bg-white animate-pulse absolute -top-1 -right-1" />
                     )}
                  </div>
                  <div>
                     <h3
-                        className={`text-lg font-semibold group-hover:text-corporate-blue-100 transition-colors ${activeSection === "payments" ? "text-white group-hover:text-white" : "text-neutral-900"}`}
+                        className={`text-lg font-semibold group-hover:text-corporate-blue-100 transition-colors ${activeSection === "settlements" ? "text-white group-hover:text-white" : "text-neutral-900"}`}
                     >
-                        Payments
+                        Settlements
                     </h3>
                     <p
-                        className={`text-sm mt-1 text-left ${activeSection === "payments" ? "text-white/80" : "text-neutral-600"}`}
+                        className={`text-sm mt-1 text-left ${activeSection === "settlements" ? "text-white/80" : "text-neutral-600"}`}
                     >
-                        Track payments and invoices.
+                        Manage invoices and payment links.
                     </p>
                  </div>
                 </button>
 
                  {/* Post-Booking Section Toggle */}
                 <button
-                onClick={() => handleSectionClick("postbooking")}
-                onClick={() => handleSectionClick("postbooking")}
-                className={`p-6 rounded-lg transition-all cursor-pointer group text-left flex items-start gap-4 w-full ${
+                onClick={() => handleSectionClick("postbooking")}                className={`p-6 rounded-lg transition-all cursor-pointer group text-left flex items-start gap-4 w-full ${
                     activeSection === "postbooking"
                     ? "bg-orange-600 border border-orange-600 shadow-md transform scale-[1.02]"
                     : "card hover:shadow-md"
@@ -564,9 +559,9 @@ export default function EventDashboardPage() {
           </div>
         )}
 
-        {activeSection === "payments" && (
+        {activeSection === "settlements" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <PaymentSection />
+            <SettlementSection />
           </div>
         )}
 
@@ -660,12 +655,12 @@ export default function EventDashboardPage() {
   );
 }
 
-// Payment Section Component (Agent View)
-function PaymentSection() {
+// Settlement Section Component (Agent View)
+function SettlementSection() {
   const [markupType, setMarkupType] = useState<"percent" | "fixed">("percent");
   const [markupValue, setMarkupValue] = useState<number>(10);
-  const [paymentMethod, setPaymentMethod] = useState<"card" | "bank">("card");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedLink, setGeneratedLink] = useState<string | null>(null);
 
   // CONSTANTS & MOCK DATA
   const BASE_COST = 12500; // Base cost of rooms/services
@@ -681,7 +676,10 @@ function PaymentSection() {
 
   const handleGenerateLink = () => {
     setIsGenerating(true);
-    setTimeout(() => setIsGenerating(false), 1500);
+    setTimeout(() => {
+        setIsGenerating(false);
+        setGeneratedLink(`${window.location.origin}/pay/inv-${Math.random().toString(36).substr(2, 9)}`);
+    }, 1500);
   };
 
   return (
@@ -736,65 +734,39 @@ function PaymentSection() {
           </div>
         </div>
 
-        {/* Room Allocation Summary */}
-        <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-neutral-900 mb-6">
-            Payment Method
-          </h3>
-
-          <div className="space-y-4">
-            <label
-              className={`flex items-center gap-4 p-4 border rounded-xl cursor-pointer transition-all ${paymentMethod === "card" ? "border-emerald-500 bg-emerald-50/10" : "border-neutral-200"}`}
-            >
-              <input
-                type="radio"
-                name="payment"
-                checked={paymentMethod === "card"}
-                onChange={() => setPaymentMethod("card")}
-                className="w-5 h-5 text-emerald-600 focus:ring-emerald-500"
-              />
-              <div className="flex-1">
-                <span className="block font-medium text-neutral-900">
-                  Credit / Debit Card
-                </span>
-                <span className="text-sm text-neutral-500">
-                  Instant processing with small fee
-                </span>
-              </div>
-              <div className="flex gap-2">
-                <div className="w-8 h-5 bg-neutral-200 rounded"></div>
-                <div className="w-8 h-5 bg-neutral-200 rounded"></div>
-              </div>
-            </label>
-
-            <label
-              className={`flex items-center gap-4 p-4 border rounded-xl cursor-pointer transition-all ${paymentMethod === "bank" ? "border-emerald-500 bg-emerald-50/10" : "border-neutral-200"}`}
-            >
-              <input
-                type="radio"
-                name="payment"
-                checked={paymentMethod === "bank"}
-                onChange={() => setPaymentMethod("bank")}
-                className="w-5 h-5 text-emerald-600 focus:ring-emerald-500"
-              />
-              <div className="flex-1">
-                <span className="block font-medium text-neutral-900">
-                  Bank Transfer
-                </span>
-                <span className="text-sm text-neutral-500">
-                  2-3 bussiess days
-                </span>
-              </div>
-            </label>
-          </div>
-        </div>
+        {/* Link Generation Result */}
+        {generatedLink && (
+            <div className="bg-white border border-emerald-200 rounded-xl p-6 shadow-sm animate-in fade-in slide-in-from-bottom-2">
+                <div className="flex items-start gap-4">
+                    <div className="p-3 bg-emerald-50 rounded-full text-emerald-600">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                    </div>
+                    <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-neutral-900">Payment Link Generated</h3>
+                        <p className="text-neutral-600 text-sm mt-1">Share this link with your client to collect payment.</p>
+                        
+                        <div className="mt-4 flex gap-2">
+                            <code className="flex-1 bg-neutral-50 border border-neutral-200 rounded-lg px-4 py-3 text-sm font-mono text-neutral-700 break-all">
+                                {generatedLink}
+                            </code>
+                            <button 
+                                onClick={() => navigator.clipboard.writeText(generatedLink)}
+                                className="px-4 py-2 bg-white border border-neutral-200 hover:bg-neutral-50 text-neutral-700 font-medium rounded-lg transition-colors whitespace-nowrap"
+                            >
+                                Copy Link
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )}
       </div>
 
       {/* RIGHT: Final Invoice Summary */}
       <div className="lg:col-span-1">
         <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm sticky top-24">
           <h3 className="text-lg font-semibold text-neutral-900 mb-6">
-            Order Summary
+            Settlement Summary
           </h3>
 
           <div className="space-y-4 text-sm">
@@ -851,8 +823,19 @@ function PaymentSection() {
             </div>
           </div>
 
-          <button className="w-full mt-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition-colors shadow-sm">
-            Pay Now
+          <button 
+            onClick={handleGenerateLink}
+            disabled={isGenerating}
+            className="w-full mt-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition-colors shadow-sm disabled:opacity-75 disabled:cursor-wait flex items-center justify-center gap-2"
+          >
+            {isGenerating ? (
+                <>
+                    <svg className="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    Generating...
+                </>
+            ) : (
+                "Generate Payment Link"
+            )}
           </button>
           <p className="text-xs text-center text-neutral-400 mt-4">
             Secure SSL 256-bit encryption
