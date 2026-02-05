@@ -11,15 +11,28 @@ export default function Navigation() {
           <img
             src="/images/logo.jpg"
             alt="TBO Logo"
-            className="h-10 w-10 object-contain rounded-lg"
+            className="h-12 w-12 object-contain rounded-lg shadow-sm"
           />
           <span className="text-white font-semibold text-lg">
-            TBO MICE Connect
+            TBO Events Planner
           </span>
         </Link>
 
         {/* Right Section */}
         <div className="flex items-center gap-4">
+          <Link
+            href="/dashboard"
+            className="text-white/80 hover:text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all"
+          >
+            Events
+          </Link>
+          <Link
+            href="/analytics"
+            className="text-white/80 hover:text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all"
+          >
+            Analytics
+          </Link>
+
           {/* Notifications */}
           <button className="text-white/75 hover:text-white transition-colors p-2">
             <svg

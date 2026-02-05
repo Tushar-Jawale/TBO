@@ -33,24 +33,24 @@ export default function RoomsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-neutral-900 tracking-tight">
+    <div className="space-y-8 pb-20">
+      <div className="border-b border-gray-100 pb-8 mt-4">
+        <h1 className="text-4xl font-black text-gray-900 tracking-tight">
           Room Assignments
         </h1>
-        <p className="text-neutral-600 mt-2 font-medium italic">
-          Simplified room planning for your family and sub-guests
+        <p className="text-gray-500 mt-2 font-medium italic">
+          Plan room sharing for your family and sub-guests below
         </p>
       </div>
 
-      <div className="bg-corporate-blue-100/5 border border-corporate-blue-100/20 rounded-xl p-6">
+      <div className="bg-amber-50 border border-amber-100 rounded-2xl p-6">
         <div className="flex items-start gap-4">
-          <div className="w-10 h-10 bg-corporate-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 text-white font-bold">
+          <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0 text-amber-700 font-bold">
             ?
           </div>
           <div>
-            <h3 className="font-bold text-neutral-900">How to assign rooms</h3>
-            <ul className="text-sm text-neutral-600 mt-2 space-y-2 list-disc list-inside font-medium">
+            <h3 className="font-bold text-amber-900">How to assign rooms</h3>
+            <ul className="text-sm text-amber-800 space-y-2 mt-2 list-disc list-inside font-medium">
               <li>Select a room from the dropdown for each guest member</li>
               <li>
                 Use <strong>Auto-Fill</strong> to automatically pair people
@@ -65,13 +65,15 @@ export default function RoomsPage() {
         </div>
       </div>
 
-      <RoomAssignmentManager
-        allocations={allocations}
-        initialGroups={groups}
-        guests={guests}
-        onUpdateGroups={handleUpdateGroups}
-        onDone={() => alert("Room assignments confirmed!")}
-      />
+      <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
+        <RoomAssignmentManager
+          allocations={allocations}
+          initialGroups={groups}
+          guests={guests}
+          onUpdateGroups={handleUpdateGroups}
+          onDone={() => alert("Room assignments confirmed!")}
+        />
+      </div>
     </div>
   );
 }

@@ -42,409 +42,549 @@ export default function EventDashboardPage() {
     <div className="space-y-8">
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">Event Dashboard</h1>
+          <h1 className="text-2xl font-bold text-neutral-900">
+            Event Dashboard
+          </h1>
           <p className="text-neutral-600 mt-1">
             Manage all aspects of your event from one place.
           </p>
         </div>
         <button
-            onClick={() => {
-                const url = `${window.location.origin}/events/${eventId}/guests`;
-                navigator.clipboard.writeText(url);
-                const btn = document.getElementById('copy-btn');
-                if (btn) {
-                    const originalText = btn.innerText;
-                    btn.innerText = 'Copied!';
-                    btn.classList.add('bg-green-600', 'text-white', 'border-green-600');
-                    btn.classList.remove('bg-white', 'text-neutral-600', 'border-neutral-200');
-                    setTimeout(() => {
-                        btn.innerText = originalText;
-                        btn.classList.remove('bg-green-600', 'text-white', 'border-green-600');
-                        btn.classList.add('bg-white', 'text-neutral-600', 'border-neutral-200');
-                    }, 2000);
-                }
-            }}
-            id="copy-btn"
-            className="flex items-center gap-2 px-4 py-2 bg-white border border-neutral-200 rounded-lg text-sm font-medium text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 transition-all shadow-sm"
+          onClick={() => {
+            const url = `${window.location.origin}/events/${eventId}/guests`;
+            navigator.clipboard.writeText(url);
+            const btn = document.getElementById("copy-btn");
+            if (btn) {
+              const originalText = btn.innerText;
+              btn.innerText = "Copied!";
+              btn.classList.add(
+                "bg-green-600",
+                "text-white",
+                "border-green-600",
+              );
+              btn.classList.remove(
+                "bg-white",
+                "text-neutral-600",
+                "border-neutral-200",
+              );
+              setTimeout(() => {
+                btn.innerText = originalText;
+                btn.classList.remove(
+                  "bg-green-600",
+                  "text-white",
+                  "border-green-600",
+                );
+                btn.classList.add(
+                  "bg-white",
+                  "text-neutral-600",
+                  "border-neutral-200",
+                );
+              }, 2000);
+            }
+          }}
+          id="copy-btn"
+          className="flex items-center gap-2 px-4 py-2 bg-white border border-neutral-200 rounded-lg text-sm font-medium text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 transition-all shadow-sm"
         >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>
-            Copy Guest Invite Link
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+            />
+          </svg>
+          Copy Guest Invite Link
         </button>
       </div>
 
       {/* Main Sections Grid Layout */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
-        
         {/* LEFT COLUMN: Concierge & Bookings (Span 8) */}
         <div className="xl:col-span-8 space-y-6">
-            <h2 className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-4 flex items-center gap-2">
-                <span className="p-1.5 bg-blue-50 text-blue-600 rounded-lg">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+          <h2 className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-4 flex items-center gap-2">
+            <span className="p-1.5 bg-blue-50 text-blue-600 rounded-lg">
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                />
+              </svg>
+            </span>
+            Bookings
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Hotels Section Toggle */}
+            <Link
+              href={`/events/${eventId}/hotels`}
+              className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left"
+            >
+              <div className="flex items-start justify-between mb-4">
+                <span className="p-2 rounded-lg bg-blue-50 text-blue-600">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                    />
+                  </svg>
                 </span>
-                 Bookings
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Hotels Section Toggle */}
-                <Link
-                href={`/events/${eventId}/hotels`}
-                className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left"
-                >
-                <div className="flex items-start justify-between mb-4">
-                    <span className="p-2 rounded-lg bg-blue-50 text-blue-600">
-                    <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                        />
-                    </svg>
-                    </span>
-                </div>
-                <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">Hotels</h3>
-                <p className="text-sm text-neutral-600 mt-1">
-                    Manage hotel allocations and room mappings.
-                </p>
-                </Link>
+              </div>
+              <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">
+                Hotels
+              </h3>
+              <p className="text-sm text-neutral-600 mt-1">
+                Manage hotel allocations and room mappings.
+              </p>
+            </Link>
 
-                {/* Flights Section Toggle */}
-                <Link
-                href={`/events/${eventId}/flights`}
-                className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left"
-                >
-                <div className="flex items-start justify-between mb-4">
-                    <span className="p-2 rounded-lg bg-sky-50 text-sky-600">
-                    <svg 
-                        className="w-6 h-6" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
-                    >
-                        <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth={2} 
-                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" 
-                        />
-                    </svg>
-                    </span>
-                </div>
-                <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">Flights</h3>
-                <p className="text-sm text-neutral-600 mt-1">
-                    Book searches and manage flight manifests.
-                </p>
-                </Link>
+            {/* Flights Section Toggle */}
+            <Link
+              href={`/events/${eventId}/flights`}
+              className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left"
+            >
+              <div className="flex items-start justify-between mb-4">
+                <span className="p-2 rounded-lg bg-sky-50 text-sky-600">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">
+                Flights
+              </h3>
+              <p className="text-sm text-neutral-600 mt-1">
+                Book searches and manage flight manifests.
+              </p>
+            </Link>
 
-                 {/* Packages Section (Non-functional) */}
-                <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left">
-                <div className="flex items-start justify-between mb-4">
-                    <span className="p-2 rounded-lg bg-violet-50 text-violet-600">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                    </svg>
-                    </span>
-                </div>
-                <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">Packages</h3>
-                <p className="text-sm text-neutral-600 mt-1">
-                    Vacation bundles and custom packages.
-                </p>
-                </div>
-
-                {/* Umrah Section (Non-functional) */}
-                <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left">
-                <div className="flex items-start justify-between mb-4">
-                    <span className="p-2 rounded-lg bg-emerald-50 text-emerald-600">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                    </svg>
-                    </span>
-                </div>
-                <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">Umrah</h3>
-                <p className="text-sm text-neutral-600 mt-1">
-                    Religious travel and pilgrimage services.
-                </p>
-                </div>
-
-                {/* Car Rental Section (Non-functional) */}
-                <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left">
-                <div className="flex items-start justify-between mb-4">
-                    <span className="p-2 rounded-lg bg-amber-50 text-amber-600">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
-                    </svg>
-                    </span>
-                </div>
-                <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">Car Rental</h3>
-                <p className="text-sm text-neutral-600 mt-1">
-                    Self-drive vehicle booking.
-                </p>
-                </div>
-
-                {/* Transfer Section (Non-functional) */}
-                <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left">
-                <div className="flex items-start justify-between mb-4">
-                    <span className="p-2 rounded-lg bg-teal-50 text-teal-600">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                    </svg>
-                    </span>
-                </div>
-                <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">Transfer</h3>
-                <p className="text-sm text-neutral-600 mt-1">
-                    Airport pickups and drop-offs.
-                </p>
-                </div>
-
-                {/* Rail Section (Non-functional) */}
-                <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left">
-                <div className="flex items-start justify-between mb-4">
-                    <span className="p-2 rounded-lg bg-red-50 text-red-600">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /> 
-                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                    </svg>
-                    </span>
-                </div>
-                <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">Rail</h3>
-                <p className="text-sm text-neutral-600 mt-1">
-                    Train ticket bookings.
-                </p>
-                </div>
-
-                {/* Cabs Section Toggle (Non-functional) */}
-                <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left">
-                <div className="flex items-start justify-between mb-4">
-                    <span className="p-2 rounded-lg bg-yellow-50 text-yellow-600">
-                    <svg 
-                        className="w-6 h-6" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
-                    >
-                        <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth={2} 
-                        d="M13 10V3L4 14h7v7l9-11h-7z" 
-                        />
-                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
-                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
-                    </svg>
-                    </span>
-                </div>
-                <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">Cabs</h3>
-                <p className="text-sm text-neutral-600 mt-1">
-                    Arrange transportation for guests.
-                </p>
-                </div>
-
-                {/* Catering Section Toggle (Non-functional) */}
-                <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left">
-                <div className="flex items-start justify-between mb-4">
-                    <span className="p-2 rounded-lg bg-pink-50 text-pink-600">
-                    <svg 
-                        className="w-6 h-6" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    </span>
-                </div>
-                <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">Catering</h3>
-                <p className="text-sm text-neutral-600 mt-1">
-                    Menu planning and dietary requests.
-                </p>
-                </div>
+            {/* Packages Section (Non-functional) */}
+            <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left">
+              <div className="flex items-start justify-between mb-4">
+                <span className="p-2 rounded-lg bg-violet-50 text-violet-600">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">
+                Packages
+              </h3>
+              <p className="text-sm text-neutral-600 mt-1">
+                Vacation bundles and custom packages.
+              </p>
             </div>
+
+            {/* Umrah Section (Non-functional) */}
+            <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left">
+              <div className="flex items-start justify-between mb-4">
+                <span className="p-2 rounded-lg bg-emerald-50 text-emerald-600">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">
+                Umrah
+              </h3>
+              <p className="text-sm text-neutral-600 mt-1">
+                Religious travel and pilgrimage services.
+              </p>
+            </div>
+
+            {/* Car Rental Section (Non-functional) */}
+            <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left">
+              <div className="flex items-start justify-between mb-4">
+                <span className="p-2 rounded-lg bg-amber-50 text-amber-600">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">
+                Car Rental
+              </h3>
+              <p className="text-sm text-neutral-600 mt-1">
+                Self-drive vehicle booking.
+              </p>
+            </div>
+
+            {/* Transfer Section (Non-functional) */}
+            <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left">
+              <div className="flex items-start justify-between mb-4">
+                <span className="p-2 rounded-lg bg-teal-50 text-teal-600">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">
+                Transfer
+              </h3>
+              <p className="text-sm text-neutral-600 mt-1">
+                Airport pickups and drop-offs.
+              </p>
+            </div>
+
+            {/* Rail Section (Non-functional) */}
+            <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left">
+              <div className="flex items-start justify-between mb-4">
+                <span className="p-2 rounded-lg bg-red-50 text-red-600">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 10h16M4 14h16M4 18h16"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">
+                Rail
+              </h3>
+              <p className="text-sm text-neutral-600 mt-1">
+                Train ticket bookings.
+              </p>
+            </div>
+
+            {/* Cabs Section Toggle (Non-functional) */}
+            <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left">
+              <div className="flex items-start justify-between mb-4">
+                <span className="p-2 rounded-lg bg-yellow-50 text-yellow-600">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">
+                Cabs
+              </h3>
+              <p className="text-sm text-neutral-600 mt-1">
+                Arrange transportation for guests.
+              </p>
+            </div>
+
+            {/* Catering Section Toggle (Non-functional) */}
+            <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left">
+              <div className="flex items-start justify-between mb-4">
+                <span className="p-2 rounded-lg bg-pink-50 text-pink-600">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">
+                Catering
+              </h3>
+              <p className="text-sm text-neutral-600 mt-1">
+                Menu planning and dietary requests.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* RIGHT COLUMN: Guest & Event Operations (Span 4) */}
         <div className="xl:col-span-4 space-y-6">
-            <h2 className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-4 flex items-center gap-2">
-                 <span className="p-1.5 bg-purple-50 text-purple-600 rounded-lg">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                 </span>
-                Guest Management
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-6">
-                
-                {/* Room Mapping Section Toggle */}
-                <Link
-                href={`/events/${eventId}/room-mapping`}
-                className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left flex items-start gap-4"
-                >
-                    <div className="shrink-0">
-                        <span className="p-2 rounded-lg bg-indigo-50 text-indigo-600 block">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
-                        </svg>
-                        </span>
-                    </div>
-                    <div>
-                        <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">Room Mapping</h3>
-                        <p className="text-sm text-neutral-600 mt-1">
-                            Visualize and assign rooms.
-                        </p>
-                    </div>
-                </Link>
+          <h2 className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-4 flex items-center gap-2">
+            <span className="p-1.5 bg-purple-50 text-purple-600 rounded-lg">
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                />
+              </svg>
+            </span>
+            Guest Management
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-6">
+            {/* Room Mapping Section Toggle */}
+            <Link
+              href={`/events/${eventId}/room-mapping`}
+              className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left flex items-start gap-4"
+            >
+              <div className="shrink-0">
+                <span className="p-2 rounded-lg bg-indigo-50 text-indigo-600 block">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">
+                  Room Mapping
+                </h3>
+                <p className="text-sm text-neutral-600 mt-1">
+                  Visualize and assign rooms.
+                </p>
+              </div>
+            </Link>
 
-                 {/* Guests Section Toggle */}
-                <button
-                onClick={() => handleSectionClick("guests")}                className={`p-6 rounded-lg transition-all cursor-pointer group text-left flex items-start gap-4 w-full ${
-                    activeSection === "guests"
-                    ? "bg-purple-600 border border-purple-600 shadow-md transform scale-[1.02]"
-                    : "card hover:shadow-md"
-                }`}
-                >
-                 <div className="shrink-0 relative">
-                    <span
-                    className={`p-2 rounded-lg block ${activeSection === "guests" ? "bg-white/20 text-white" : "bg-purple-50 text-purple-600"}`}
-                    >
-                    <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                        />
-                    </svg>
-                    </span>
-                    {activeSection === "guests" && (
-                    <div className="w-2 h-2 rounded-full bg-white animate-pulse absolute -top-1 -right-1" />
-                    )}
-                </div>
-                <div>
-                    <h3
-                        className={`text-lg font-semibold group-hover:text-corporate-blue-100 transition-colors ${activeSection === "guests" ? "text-white group-hover:text-white" : "text-neutral-900"}`}
-                    >
-                        Guests
-                    </h3>
-                    <p
-                        className={`text-sm mt-1 text-left ${activeSection === "guests" ? "text-white/80" : "text-neutral-600"}`}
-                    >
-                        View guest lists and RSVPs.
-                    </p>
-                </div>
-                </button>
+            {/* Guests Section Toggle */}
+            <Link
+              href={`/events/${eventId}/manage-guests`}
+              className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left flex items-start gap-4"
+            >
+              <div className="shrink-0 relative">
+                <span className="p-2 rounded-lg bg-purple-50 text-purple-600 block">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">
+                  Guests
+                </h3>
+                <p className="text-sm mt-1 text-left text-neutral-600">
+                  View guest lists and RSVPs.
+                </p>
+              </div>
+            </Link>
 
-                 {/* Queues Section (Non-functional) */}
-                <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left flex items-start gap-4">
-                 <div className="shrink-0">
-                    <span className="p-2 rounded-lg bg-indigo-50 text-indigo-600 block">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    </span>
-                </div>
-                <div>
-                    <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">Queues</h3>
-                    <p className="text-sm text-neutral-600 mt-1">
-                        Manage waiting lists.
-                    </p>
-                </div>
-                </div>
-
-                {/* Settlements Section Toggle */}
-                <button
-                onClick={() => handleSectionClick("settlements")}
-                className={`p-6 rounded-lg transition-all cursor-pointer group text-left flex items-start gap-4 w-full ${
-                    activeSection === "settlements"
-                    ? "bg-emerald-600 border border-emerald-600 shadow-md transform scale-[1.02]"
-                    : "card hover:shadow-md"
-                }`}
-                >
-                 <div className="shrink-0 relative">
-                    <span
-                    className={`p-2 rounded-lg block ${activeSection === "settlements" ? "bg-white/20 text-white" : "bg-emerald-50 text-emerald-600"}`}
-                    >
-                    <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                    </svg>
-                    </span>
-                    {activeSection === "settlements" && (
-                     <div className="w-2 h-2 rounded-full bg-white animate-pulse absolute -top-1 -right-1" />
-                    )}
-                 </div>
-                 <div>
-                    <h3
-                        className={`text-lg font-semibold group-hover:text-corporate-blue-100 transition-colors ${activeSection === "settlements" ? "text-white group-hover:text-white" : "text-neutral-900"}`}
-                    >
-                        Settlements
-                    </h3>
-                    <p
-                        className={`text-sm mt-1 text-left ${activeSection === "settlements" ? "text-white/80" : "text-neutral-600"}`}
-                    >
-                        Manage invoices and payment links.
-                    </p>
-                 </div>
-                </button>
-
-                 {/* Post-Booking Section Toggle */}
-                <button
-                onClick={() => handleSectionClick("postbooking")}                className={`p-6 rounded-lg transition-all cursor-pointer group text-left flex items-start gap-4 w-full ${
-                    activeSection === "postbooking"
-                    ? "bg-orange-600 border border-orange-600 shadow-md transform scale-[1.02]"
-                    : "card hover:shadow-md"
-                }`}
-                >
-                <div className="shrink-0 relative">
-                    <span
-                    className={`p-2 rounded-lg block ${activeSection === "postbooking" ? "bg-white/20 text-white" : "bg-orange-50 text-orange-600"}`}
-                    >
-                    <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                    </svg>
-                    </span>
-                     {activeSection === "postbooking" && (
-                      <div className="w-2 h-2 rounded-full bg-white animate-pulse absolute -top-1 -right-1" />
-                    )}
-                </div>
-                <div>
-                    <h3
-                        className={`text-lg font-semibold group-hover:text-corporate-blue-100 transition-colors ${activeSection === "postbooking" ? "text-white group-hover:text-white" : "text-neutral-900"}`}
-                    >
-                        Post-Booking
-                    </h3>
-                    <p
-                        className={`text-sm mt-1 text-left ${activeSection === "postbooking" ? "text-white/80" : "text-neutral-600"}`}
-                    >
-                        Manage cancellations.
-                    </p>
-                </div>
-                </button>
+            {/* Queues Section (Non-functional) */}
+            <div className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left flex items-start gap-4">
+              <div className="shrink-0">
+                <span className="p-2 rounded-lg bg-indigo-50 text-indigo-600 block">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">
+                  Queues
+                </h3>
+                <p className="text-sm text-neutral-600 mt-1">
+                  Manage waiting lists.
+                </p>
+              </div>
             </div>
+
+            {/* Settlements Section Toggle */}
+            <button
+              onClick={() => handleSectionClick("settlements")}
+              className={`p-6 rounded-lg transition-all cursor-pointer group text-left flex items-start gap-4 w-full ${
+                activeSection === "settlements"
+                  ? "bg-emerald-600 border border-emerald-600 shadow-md transform scale-[1.02]"
+                  : "card hover:shadow-md"
+              }`}
+            >
+              <div className="shrink-0 relative">
+                <span
+                  className={`p-2 rounded-lg block ${activeSection === "settlements" ? "bg-white/20 text-white" : "bg-emerald-50 text-emerald-600"}`}
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </span>
+                {activeSection === "settlements" && (
+                  <div className="w-2 h-2 rounded-full bg-white animate-pulse absolute -top-1 -right-1" />
+                )}
+              </div>
+              <div>
+                <h3
+                  className={`text-lg font-semibold group-hover:text-corporate-blue-100 transition-colors ${activeSection === "settlements" ? "text-white group-hover:text-white" : "text-neutral-900"}`}
+                >
+                  Settlements
+                </h3>
+                <p
+                  className={`text-sm mt-1 text-left ${activeSection === "settlements" ? "text-white/80" : "text-neutral-600"}`}
+                >
+                  Manage invoices and payment links.
+                </p>
+              </div>
+            </button>
+
+            {/* Post-Booking Section Link */}
+            <Link
+              href={`/events/${eventId}/post-booking`}
+              className="card p-6 hover:shadow-md transition-all cursor-pointer group text-left flex items-start gap-4"
+            >
+              <div className="shrink-0 relative">
+                <span className="p-2 rounded-lg bg-orange-50 text-orange-600 block">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-corporate-blue-100 transition-colors">
+                  Post-Booking
+                </h3>
+                <p className="text-sm mt-1 text-left text-neutral-600">
+                  Manage cancellations.
+                </p>
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -541,105 +681,9 @@ export default function EventDashboardPage() {
           </div>
         )}
 
-        {activeSection === "guests" && (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold text-neutral-900">Guest List</h2>
-              <div className="flex gap-2">
-                <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
-                  127 Total
-                </span>
-                <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                  98 Checked In
-                </span>
-              </div>
-            </div>
-
-            <GuestListTable eventId={eventId} />
-          </div>
-        )}
-
         {activeSection === "settlements" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <SettlementSection />
-          </div>
-        )}
-
-        {activeSection === "postbooking" && (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <Link href={`/events/${eventId}/post-booking`} className="block">
-              <div className="bg-white border border-neutral-200 rounded-xl p-8 hover:shadow-lg hover:border-orange-300 transition-all cursor-pointer">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="p-3 bg-orange-100 rounded-lg">
-                    <svg
-                      className="w-8 h-8 text-orange-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold text-neutral-900">
-                      Post-Booking Intelligence
-                    </h2>
-                    <p className="text-neutral-600 text-sm">
-                      Algorithmic Loss Mitigation System
-                    </p>
-                  </div>
-                </div>
-                <p className="text-neutral-600 mb-6">
-                  Manage cancellations, modifications, and optimize financial
-                  recovery through intelligent algorithms.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                  <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-neutral-900">3</div>
-                    <div className="text-sm text-neutral-600">
-                      Pending Cancellations
-                    </div>
-                  </div>
-                  <div className="bg-white/10 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-success">
-                      ₹30.3K
-                    </div>
-                    <div className="text-sm text-neutral-600">
-                      Recovery Potential
-                    </div>
-                  </div>
-                  <div className="bg-white/10 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-orange-600">
-                      79%
-                    </div>
-                    <div className="text-sm text-neutral-600">
-                      Mitigation Rate
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 text-orange-600 font-medium">
-                  <span>Open Post-Booking Dashboard</span>
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </Link>
           </div>
         )}
 
@@ -677,13 +721,15 @@ function SettlementSection() {
   const handleGenerateLink = () => {
     setIsGenerating(true);
     setTimeout(() => {
-        setIsGenerating(false);
-        setGeneratedLink(`${window.location.origin}/pay/inv-${Math.random().toString(36).substr(2, 9)}`);
+      setIsGenerating(false);
+      setGeneratedLink(
+        `${window.location.origin}/pay/inv-${Math.random().toString(36).substr(2, 9)}`,
+      );
     }, 1500);
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 lg:col-span-3 gap-8">
       {/* LEFT: Configuration & Details */}
       <div className="lg:col-span-2 space-y-6">
         {/* Markup Configuration */}
@@ -736,29 +782,45 @@ function SettlementSection() {
 
         {/* Link Generation Result */}
         {generatedLink && (
-            <div className="bg-white border border-emerald-200 rounded-xl p-6 shadow-sm animate-in fade-in slide-in-from-bottom-2">
-                <div className="flex items-start gap-4">
-                    <div className="p-3 bg-emerald-50 rounded-full text-emerald-600">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                    </div>
-                    <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-neutral-900">Payment Link Generated</h3>
-                        <p className="text-neutral-600 text-sm mt-1">Share this link with your client to collect payment.</p>
-                        
-                        <div className="mt-4 flex gap-2">
-                            <code className="flex-1 bg-neutral-50 border border-neutral-200 rounded-lg px-4 py-3 text-sm font-mono text-neutral-700 break-all">
-                                {generatedLink}
-                            </code>
-                            <button 
-                                onClick={() => navigator.clipboard.writeText(generatedLink)}
-                                className="px-4 py-2 bg-white border border-neutral-200 hover:bg-neutral-50 text-neutral-700 font-medium rounded-lg transition-colors whitespace-nowrap"
-                            >
-                                Copy Link
-                            </button>
-                        </div>
-                    </div>
+          <div className="bg-white border border-emerald-200 rounded-xl p-6 shadow-sm animate-in fade-in slide-in-from-bottom-2">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-emerald-50 rounded-full text-emerald-600">
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-neutral-900">
+                  Payment Link Generated
+                </h3>
+                <p className="text-neutral-600 text-sm mt-1">
+                  Share this link with your client to collect payment.
+                </p>
+
+                <div className="mt-4 flex gap-2">
+                  <code className="flex-1 bg-neutral-50 border border-neutral-200 rounded-lg px-4 py-3 text-sm font-mono text-neutral-700 break-all">
+                    {generatedLink}
+                  </code>
+                  <button
+                    onClick={() => navigator.clipboard.writeText(generatedLink)}
+                    className="px-4 py-2 bg-white border border-neutral-200 hover:bg-neutral-50 text-neutral-700 font-medium rounded-lg transition-colors whitespace-nowrap"
+                  >
+                    Copy Link
+                  </button>
                 </div>
+              </div>
             </div>
+          </div>
         )}
       </div>
 
@@ -800,8 +862,8 @@ function SettlementSection() {
               </span>
             </div>
 
-            <div className="flex justify-between text-neutral-600">
-              <span>Tax (18%)</span>
+            <div className="flex justify-between text-neutral-600 border-b border-neutral-100 pb-4">
+              <span>Estimated Tax (18%)</span>
               <span>
                 $
                 {taxAmount.toLocaleString(undefined, {
@@ -811,9 +873,11 @@ function SettlementSection() {
               </span>
             </div>
 
-            <div className="border-t border-neutral-200 my-4 pt-4 flex justify-between items-center">
-              <span className="font-bold text-lg text-neutral-900">Total</span>
-              <span className="font-bold text-2xl text-neutral-900">
+            <div className="flex justify-between items-center pt-2">
+              <span className="text-lg font-bold text-neutral-900">
+                Estimated Total
+              </span>
+              <span className="text-2xl font-black text-neutral-900">
                 $
                 {total.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
@@ -823,243 +887,46 @@ function SettlementSection() {
             </div>
           </div>
 
-          <button 
-            onClick={handleGenerateLink}
-            disabled={isGenerating}
-            className="w-full mt-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition-colors shadow-sm disabled:opacity-75 disabled:cursor-wait flex items-center justify-center gap-2"
-          >
-            {isGenerating ? (
+          <div className="mt-8 space-y-3">
+            <button
+              disabled={isGenerating}
+              onClick={handleGenerateLink}
+              className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition-all shadow-md shadow-emerald-200 flex items-center justify-center gap-2 active:scale-[0.98] disabled:opacity-50"
+            >
+              {isGenerating ? (
                 <>
-                    <svg className="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                    Generating...
+                  <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                  Generating...
                 </>
-            ) : (
-                "Generate Payment Link"
-            )}
-          </button>
-          <p className="text-xs text-center text-neutral-400 mt-4">
-            Secure SSL 256-bit encryption
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Guest List Component (Placed inline for now for modularity within this file, can be extracted later)
-import { useEffect } from "react";
-
-interface GuestData {
-  id: string;
-  name: string;
-  age: number;
-  gender: "Male" | "Female" | "Other";
-  checkIn: string;
-  checkOut: string;
-  specialRequest?: string;
-  status: "Checked In" | "Pending" | "Checked Out";
-  tag: "VIP" | "Regular" | "Staff";
-}
-
-const MOCK_GUESTS: GuestData[] = [
-  {
-    id: "g1",
-    name: "Rajesh Kumar",
-    age: 34,
-    gender: "Male",
-    checkIn: "2024-10-15",
-    checkOut: "2024-10-18",
-    specialRequest: "Sea View",
-    status: "Checked In",
-    tag: "VIP",
-  },
-  {
-    id: "g2",
-    name: "Priya Sharma",
-    age: 28,
-    gender: "Female",
-    checkIn: "2024-10-15",
-    checkOut: "2024-10-17",
-    status: "Checked In",
-    tag: "Regular",
-  },
-  {
-    id: "g3",
-    name: "Amit Patel",
-    age: 45,
-    gender: "Male",
-    checkIn: "2024-10-16",
-    checkOut: "2024-10-19",
-    specialRequest: "Late Check-out",
-    status: "Pending",
-    tag: "VIP",
-  },
-  {
-    id: "g4",
-    name: "Sneha Reddy",
-    age: 31,
-    gender: "Female",
-    checkIn: "2024-10-15",
-    checkOut: "2024-10-18",
-    status: "Checked In",
-    tag: "Regular",
-  },
-  {
-    id: "g5",
-    name: "John Doe",
-    age: 29,
-    gender: "Male",
-    checkIn: "2024-10-15",
-    checkOut: "2024-10-18",
-    status: "Checked Out",
-    tag: "Staff",
-  },
-  {
-    id: "g6",
-    name: "Jane Smith",
-    age: 25,
-    gender: "Female",
-    checkIn: "2024-10-16",
-    checkOut: "2024-10-20",
-    specialRequest: "Vegan Meal",
-    status: "Pending",
-    tag: "Regular",
-  },
-  // Add more mock data if needed for pagination test
-];
-
-function GuestListTable({ eventId }: { eventId: string }) {
-  const [guests, setGuests] = useState<GuestData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedGuestId, setSelectedGuestId] = useState<string | null>(null);
-
-  useEffect(() => {
-    // Simulate API fetch
-    setLoading(true);
-    const timer = setTimeout(() => {
-      setGuests(MOCK_GUESTS);
-      setLoading(false);
-    }, 800); // 800ms simulated delay
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="w-full h-64 flex items-center justify-center bg-white rounded-xl border border-neutral-200">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
-          <p className="text-sm text-neutral-500">Loading guest list...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (guests.length === 0) {
-    return (
-      <div className="w-full py-12 flex flex-col items-center justify-center bg-white rounded-xl border border-neutral-200">
-        <p className="text-neutral-500">No guests found for this event.</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm">
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-neutral-50 border-b border-neutral-200">
-            <tr>
-              <th className="px-6 py-4 font-semibold text-neutral-700">Name</th>
-              <th className="px-6 py-4 font-semibold text-neutral-700">
-                Age/Gender
-              </th>
-              <th className="px-6 py-4 font-semibold text-neutral-700">
-                Check-In / Out
-              </th>
-              <th className="px-6 py-4 font-semibold text-neutral-700">
-                Status
-              </th>
-              <th className="px-6 py-4 font-semibold text-neutral-700">Tag</th>
-              <th className="px-6 py-4 font-semibold text-neutral-700">
-                Special Request
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-neutral-100">
-            {guests.map((guest) => {
-              const isSelected = selectedGuestId === guest.id;
-              return (
-                <tr
-                  key={guest.id}
-                  onClick={() => setSelectedGuestId(guest.id)}
-                  className={`transition-colors cursor-pointer ${isSelected ? "bg-purple-50" : "hover:bg-neutral-50"}`}
-                >
-                  <td className="px-6 py-4 font-medium text-neutral-900">
-                    {guest.name}
-                  </td>
-                  <td className="px-6 py-4 text-neutral-600">
-                    {guest.age} / {guest.gender}
-                  </td>
-                  <td className="px-6 py-4 text-neutral-600">
-                    <div className="flex flex-col">
-                      <span>In: {guest.checkIn}</span>
-                      <span className="text-xs text-neutral-400">
-                        Out: {guest.checkOut}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        guest.status === "Checked In"
-                          ? "bg-green-100 text-green-700"
-                          : guest.status === "Pending"
-                            ? "bg-yellow-100 text-yellow-700"
-                            : "bg-neutral-100 text-neutral-600"
-                      }`}
-                    >
-                      {guest.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={`px-2 py-1 text-xs font-medium rounded-full border ${
-                        guest.tag === "VIP"
-                          ? "bg-purple-50 text-purple-700 border-purple-200"
-                          : guest.tag === "Staff"
-                            ? "bg-blue-50 text-blue-700 border-blue-200"
-                            : "bg-white text-neutral-600 border-neutral-200"
-                      }`}
-                    >
-                      {guest.tag}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-neutral-500 italic">
-                    {guest.specialRequest || "-"}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-      <div className="bg-neutral-50 border-t border-neutral-200 px-6 py-4 flex items-center justify-between">
-        <span className="text-sm text-neutral-500">
-          Showing {guests.length} guests
-        </span>
-        <div className="flex gap-2">
-          <button
-            disabled
-            className="px-3 py-1 border border-neutral-200 rounded text-sm text-neutral-400 cursor-not-allowed"
-          >
-            Previous
-          </button>
-          <button
-            disabled
-            className="px-3 py-1 border border-neutral-200 rounded text-sm text-neutral-400 cursor-not-allowed"
-          >
-            Next
-          </button>
+              ) : (
+                <>
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10.172 13.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101"
+                    />
+                  </svg>
+                  Generate Payment Link
+                </>
+              )}
+            </button>
+            <button className="w-full py-3 bg-white border border-neutral-200 text-neutral-700 font-semibold rounded-lg hover:bg-neutral-50 transition-all">
+              Download PDF Invoice
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -9,7 +9,6 @@ function EventLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isGuestsPage = pathname?.includes("/guests");
   const isPortalRoute = pathname?.includes("/portal");
-  const { isCollapsed } = useSidebar();
 
   // Portal routes have their own layout, so don't apply agent layout
   if (isPortalRoute || isGuestsPage) {
@@ -19,12 +18,7 @@ function EventLayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navigation />
-      <Sidebar />
-      <main
-        className={`mt-16 transition-all duration-300 ${isCollapsed ? "ml-20" : "ml-64"} p-8`}
-      >
-        {children}
-      </main>
+      <main className="mt-16 p-8">{children}</main>
     </>
   );
 }
@@ -34,9 +28,5 @@ export default function EventLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <SidebarProvider>
-      <EventLayoutContent>{children}</EventLayoutContent>
-    </SidebarProvider>
-  );
+  return <EventLayoutContent>{children}</EventLayoutContent>;
 }
