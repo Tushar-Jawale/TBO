@@ -10,11 +10,12 @@ export interface Hotel {
     amenities: string[];
     type: string;
     discount?: number;
-    occupancy: number; // Added for filtering
+    occupancy: number;
 }
 
 export interface RoomType {
-    id: number;
+    id: string; // Changed to string (UUID)
+    hotelId: string;
     name: string;
     capacity: number;
     price: number;
@@ -28,7 +29,7 @@ export interface RoomsInventory {
 }
 
 export interface Banquet {
-    id: string;
+    id: number; // uint
     name: string;
     capacity: number;
     facilities: string[];
@@ -36,7 +37,7 @@ export interface Banquet {
 }
 
 export interface Catering {
-    id: string;
+    id: number; // uint
     name: string;
     description: string;
     menuHighlights: string[];

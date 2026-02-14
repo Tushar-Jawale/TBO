@@ -1,5 +1,7 @@
 import { Hotel, HotelDataWrapper, Banquet, Catering, RoomType } from '../types';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+
 export const hotelApi = {
     /**
      * Fetch hotels for a specific city
@@ -15,7 +17,7 @@ export const hotelApi = {
         // Map backend PascalCase to camelCase
         const hotelsList = result.data || [];
         return hotelsList.map((h: any) => ({
-            id: h.ID || h.id,
+            id: h.ID || h.id || h.hotel_code,
             name: h.Name || h.name,
             location: h.Address || h.location,
             amenities: h.Facilities || h.amenities || [],
@@ -44,10 +46,11 @@ export const hotelApi = {
         const roomsList = result.data || result || [];
         return (Array.isArray(roomsList) ? roomsList : []).map((r: any) => ({
             id: r.ID || r.id,
+            hotelId: r.HotelID || r.hotelId || hotelCode,
             name: r.Name || r.name,
-            price: r.Price || r.price || 0,
-            capacity: r.Capacity || r.capacity || 0,
-            inventory: r.Inventory || r.inventory || 0,
+            price: r.TotalFare || r.price || 0,
+            capacity: r.MaxCapacity || r.capacity || 0,
+            inventory: r.Count || r.inventory || 0,
             description: r.Description || r.description || ''
         }));
     },
@@ -68,7 +71,7 @@ export const hotelApi = {
             id: b.ID || b.id,
             name: b.Name || b.name,
             capacity: b.Capacity || b.capacity || 0,
-            pricePerSlot: b.PricePerSlot || b.pricePerSlot || 0,
+            pricePerSlot: b.PricePerDay || b.pricePerSlot || 0,
             facilities: b.Facilities || b.facilities || []
         }));
     },
@@ -88,8 +91,8 @@ export const hotelApi = {
         return (Array.isArray(cateringList) ? cateringList : []).map((c: any) => ({
             id: c.ID || c.id,
             name: c.Name || c.name,
-            description: c.Description || c.description || '',
-            pricePerPerson: c.PricePerPerson || c.pricePerPerson || 0,
+            description: c.Type || c.description || '', // Mapping Type to description since backend keeps it simple
+            pricePerPerson: c.PricePerPlate || c.pricePerPerson || 0,
             menuHighlights: c.MenuHighlights || c.menuHighlights || []
         }));
     }

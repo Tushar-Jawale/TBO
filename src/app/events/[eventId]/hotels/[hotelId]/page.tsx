@@ -36,7 +36,7 @@ export default function HotelDetailsPage() {
     triple: 0,
     quad: 0,
   });
-
+  
   useEffect(() => {
     const savedDemand = localStorage.getItem(`demand_${eventId}`);
     if (savedDemand) {
@@ -81,25 +81,15 @@ export default function HotelDetailsPage() {
   const REQUIREMENTS = requirements;
 
   // State for selected rooms: { [roomId]: quantity }
-  const [selectedRooms, setSelectedRooms] = useState<Record<number, number>>(
-    {},
-  );
+  const [selectedRooms, setSelectedRooms] = useState<Record<string, number>>({});
 
   // State for banquet and catering
   const [attendeeCount, setAttendeeCount] = useState(100);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>("");
-  const [selectedBanquetHall, setSelectedBanquetHall] = useState<string>("");
-  const [selectedMealPlan, setSelectedMealPlan] = useState<string>("");
+  const [selectedBanquetHall, setSelectedBanquetHall] = useState<number | null>(null);
+  const [selectedMealPlan, setSelectedMealPlan] = useState<number | null>(null);
   const [eventDate, setEventDate] = useState<string>("");
   const [eventTime, setEventTime] = useState<string>("");
-
-  if (!hotel) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-neutral-50 text-neutral-500">
-        Hotel not found.
-      </div>
-    );
-  }
 
   // Categorized Rooms
   const categorizedRooms = useMemo(() => {
@@ -110,9 +100,19 @@ export default function HotelDetailsPage() {
     };
   }, [rooms]);
 
+  if (!hotel) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-neutral-50 text-neutral-500">
+        {error || "Hotel not found."}
+      </div>
+    );
+  }
+
+
+
   // --- Helpers ---
 
-  const handleUpdateRoom = (roomId: number, change: number) => {
+  const handleUpdateRoom = (roomId: string, change: number) => {
     setSelectedRooms((prev) => {
       const current = prev[roomId] || 0;
       const next = Math.max(0, current + change);
@@ -174,7 +174,6 @@ export default function HotelDetailsPage() {
   };
 
   // --- UI Components ---
-
   const RoomCounter = ({ room }: { room: RoomType }) => {
     const count = selectedRooms[room.id] || 0;
     return (
@@ -220,7 +219,7 @@ export default function HotelDetailsPage() {
             </svg>
             Max {room.capacity}
           </span>
-          {room.description && <span>• {room.description}</span>}
+          {/* Add more details if available in RoomOffer */}
         </div>
       </div>
       <div className="flex items-center justify-between sm:justify-end gap-6">
@@ -826,7 +825,7 @@ export default function HotelDetailsPage() {
                       <>
                         {/* Rooms */}
                         {Object.entries(selectedRooms).map(([id, qty]) => {
-                          const room = rooms.find((r) => r.id === Number(id));
+                          const room = rooms.find((r) => r.id === id);
                           if (!room || qty === 0) return null;
                           return (
                             <div
