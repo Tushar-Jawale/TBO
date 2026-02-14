@@ -3,6 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import EventModal from "@/components/legacy/EventModal";
+import { useEvents } from "@/context/EventContext";
 
 interface Hotel {
   id: string;
@@ -24,6 +27,20 @@ export default function EventDashboardPage() {
   const eventId = params.eventId as string;
   const [activeSection, setActiveSection] = useState<Section | null>(null);
   const [selectedHotelId, setSelectedHotelId] = useState<string | null>(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const { events, loading: eventsLoading, error: eventsError } = useEvents();
+  const { isAuthenticated, token } = useAuth();
+  
+  const currentEvent = events.find(e => e.id === eventId);
+
+  if (eventsLoading) {
+    return <div className="p-8 text-center">Loading event details...</div>;
+  }
+
+  if (!currentEvent && !eventsLoading) {
+     return <div className="p-8 text-center text-red-500">Event not found. Please try refreshing or check the URL.</div>;
+  }
+
 
   const handleSectionClick = (section: Section) => {
     setActiveSection(activeSection === section ? null : section);
@@ -49,6 +66,16 @@ export default function EventDashboardPage() {
             Manage all aspects of your event from one place.
           </p>
         </div>
+      <div className="flex gap-4">
+        <button
+          onClick={() => setShowEditModal(true)}
+          className="flex items-center gap-2 px-4 py-2 bg-white border border-neutral-200 rounded-lg text-sm font-medium text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 transition-all shadow-sm"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
+          Edit Details
+        </button>
         <button
           onClick={() => {
             const url = `${window.location.origin}/events/${eventId}/guests`;
@@ -100,6 +127,7 @@ export default function EventDashboardPage() {
           </svg>
           Copy Guest Invite Link
         </button>
+      </div>
       </div>
 
       {/* Main Sections Grid Layout */}
@@ -695,6 +723,12 @@ export default function EventDashboardPage() {
           </div>
         )}
       </div>
+      {/* Event Modal */}
+      <EventModal
+        isOpen={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        event={currentEvent}
+      />
     </div>
   );
 }

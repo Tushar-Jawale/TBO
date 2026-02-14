@@ -41,8 +41,8 @@ export function EventProvider({ children }: { children: ReactNode }) {
       
       const mappedEvents = eventsList.map((e: any) => ({
         id: e.id || e.ID,
-        name: e.name || e.Name,
-        location: e.location || e.Location,
+        name: e.name !== undefined ? e.name : e.Name,
+        location: e.location !== undefined ? e.location : e.Location,
         startDate: e.startDate || e.StartDate,
         endDate: e.endDate || e.EndDate,
         organizer: 'Me',
@@ -108,13 +108,63 @@ export function EventProvider({ children }: { children: ReactNode }) {
   };
 
   const updateEvent = async (id: string, updatedEvent: Partial<Event>) => {
-      // TODO: Implement API call
-      console.log('Update event placeholder', id, updatedEvent);
+    if (!token) return;
+    setLoading(true);
+    try {
+        const payload = {
+            name: updatedEvent.name,
+            location: updatedEvent.location,
+            startDate: updatedEvent.startDate,
+            endDate: updatedEvent.endDate,
+        };
+
+        const res = await fetch(`${backendUrl}/api/v1/events/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to update event');
+        }
+
+        await fetchEvents();
+    } catch (err: any) {
+        console.error('Update event error:', err);
+        setError(err.message);
+        throw err;
+    } finally {
+        setLoading(false);
+    }
   };
 
   const deleteEvent = async (id: string) => {
-       // TODO: Implement API call
-      console.log('Delete event placeholder', id);
+    if (!token) return;
+    setLoading(true);
+    try {
+        const res = await fetch(`${backendUrl}/api/v1/events/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to delete event');
+        }
+
+        // Optimistically remove or refetch
+        setEvents(prev => prev.filter(e => e.id !== id));
+    } catch (err: any) {
+        console.error('Delete event error:', err);
+        setError(err.message);
+        throw err;
+    } finally {
+        setLoading(false);
+    }
   };
 
   return (

@@ -1,16 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useEvents } from '@/context/EventContext';
+import { Event } from '@/modules/events/types';
 
 interface EventModalProps {
   isOpen: boolean;
   onClose: () => void;
+  event?: Event; // Optional event for editing
 }
 
-export default function EventModal({ isOpen, onClose }: EventModalProps) {
-  const { addEvent } = useEvents();
+export default function EventModal({ isOpen, onClose, event }: EventModalProps) {
+  const { addEvent, updateEvent } = useEvents();
   const [step, setStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     location: '',
@@ -19,43 +22,68 @@ export default function EventModal({ isOpen, onClose }: EventModalProps) {
     organizer: '',
   });
 
-  if (!isOpen) return null;
-
-  const handleSubmit = async () => {
-    // Create new event payload (API will generate ID)
-    const newEvent = {
-      name: formData.name,
-      location: formData.location,
-      startDate: formData.startDate,
-      endDate: formData.endDate,
-      organizer: formData.organizer,
-      status: 'upcoming' as const,
-      // API defaults to 0 for these or calculates them
-      guestCount: 0,
-      hotelCount: 0,
-      inventoryConsumed: 0,
-    };
-
-    try {
-        await addEvent(newEvent as any);
-        
-        // Show success state
-        setStep(2);
-        setTimeout(() => {
-          onClose();
-          // Reset form
-          setStep(1);
-          setFormData({
+  // Populate form when event prop changes or modal opens
+  useEffect(() => {
+    if (event && isOpen) {
+        setFormData({
+            name: event.name || '',
+            location: event.location || '',
+            startDate: event.startDate ? new Date(event.startDate).toISOString().split('T')[0] : '',
+            endDate: event.endDate ? new Date(event.endDate).toISOString().split('T')[0] : '',
+            organizer: event.organizer || 'Me', // Default to 'Me' if missing
+        });
+    } else if (!event && isOpen) {
+        // Reset for create mode
+        setFormData({
             name: '',
             location: '',
             startDate: '',
             endDate: '',
-            organizer: '',
-          });
-        }, 2000);
+            organizer: 'Me', // Default to 'Me' for new events
+        });
+    }
+  }, [event, isOpen]);
+
+
+  if (!isOpen) return null;
+
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    try {
+        if (event) {
+            // Update Mode
+            await updateEvent(event.id, {
+                name: formData.name,
+                location: formData.location,
+                startDate: formData.startDate,
+                endDate: formData.endDate,
+                organizer: formData.organizer,
+            });
+            onClose(); 
+        } else {
+            // Create Mode
+            const newEvent = {
+                name: formData.name,
+                location: formData.location,
+                startDate: formData.startDate,
+                endDate: formData.endDate,
+                organizer: formData.organizer,
+                status: 'upcoming' as const,
+                guestCount: 0,
+                hotelCount: 0,
+                inventoryConsumed: 0,
+            };
+            await addEvent(newEvent as any);
+            setStep(2); // Show success
+            setTimeout(() => {
+                onClose();
+                setStep(1);
+             }, 2000);
+        }
     } catch (e) {
-        console.error("Failed to add event", e);
-        // Could set local error state here to show in UI
+        console.error("Failed to save event", e);
+    } finally {
+        setIsLoading(false);
     }
   };
 
@@ -77,7 +105,9 @@ export default function EventModal({ isOpen, onClose }: EventModalProps) {
         {/* Header */}
         <div className="px-6 py-4 border-b border-neutral-200 flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-neutral-900">Create New Event</h2>
+            <h2 className="text-xl font-semibold text-neutral-900">
+                {event ? 'Edit Event' : 'Create New Event'}
+            </h2>
             <p className="text-sm text-neutral-600 mt-1">
               {step === 1 ? 'Event Details' : 'Success!'}
             </p>
@@ -171,10 +201,10 @@ export default function EventModal({ isOpen, onClose }: EventModalProps) {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-neutral-900 mb-2">
-                Inventory Vault Created
+                {event ? 'Event Updated' : 'Inventory Vault Created'}
               </h3>
               <p className="text-neutral-600">
-                Your dedicated inventory vault has been created successfully.
+                {event ? 'Your event details have been updated.' : 'Your dedicated inventory vault has been created successfully.'}
               </p>
             </div>
           )}
@@ -192,11 +222,12 @@ export default function EventModal({ isOpen, onClose }: EventModalProps) {
             <button
               onClick={handleSubmit}
               disabled={
+                isLoading ||
                 !formData.name || !formData.location || !formData.startDate || !formData.endDate || !formData.organizer
               }
               className="px-6 py-2 bg-corporate-blue-100 hover:bg-corporate-blue-200 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Create Event
+              {isLoading ? 'Saving...' : (event ? 'Update Event' : 'Create Event')}
             </button>
           </div>
         )}
